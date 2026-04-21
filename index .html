@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>StudentHub</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f5f4f0;--s:#fff;--t:#111110;--mu:#888880;--tag:#eeecea;--bd:#e0ded8;--gr:#1a7a4a;--gl:#e8f5ee;--bl:#1a4d7a;--bll:#e8f0f5;--or:#c05a1a;--ol:#f5ede8;--gd:#c8922a;--rd:#c0392b}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;font-size:14px;line-height:1.6}
+nav{position:sticky;top:0;z-index:500;background:rgba(245,244,240,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd);padding:0 16px;display:flex;align-items:center;height:56px;gap:4px}
+.logo{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:var(--t);display:flex;align-items:center;gap:7px;cursor:pointer;margin-right:10px;flex-shrink:0}
+.logo-dot{width:7px;height:7px;background:var(--t);border-radius:50%}
+.nav-links{display:flex;gap:2px;flex:1;overflow:hidden}
+.nb{background:none;border:none;cursor:pointer;font-family:'Manrope',sans-serif;font-size:12px;font-weight:500;color:var(--mu);padding:5px 9px;border-radius:6px;transition:all .15s;white-space:nowrap}
+.nb:hover,.nb.active{color:var(--t);background:var(--tag)}
+.nav-right{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.btn-o{background:none;border:1px solid var(--bd);font-family:'Manrope',sans-serif;font-size:12px;font-weight:500;color:var(--t);padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .15s}
+.btn-o:hover{border-color:var(--t)}
+.btn-s{background:var(--t);border:none;font-family:'Manrope',sans-serif;font-size:12px;font-weight:600;color:#fff;padding:5px 12px;border-radius:20px;cursor:pointer;transition:opacity .15s}
+.btn-s:hover{opacity:.85}
+.uchip{display:flex;align-items:center;gap:7px;background:var(--tag);border:1px solid var(--bd);border-radius:20px;padding:3px 11px 3px 3px;cursor:pointer}
+.uav{width:26px;height:26px;border-radius:50%;background:var(--t);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.uname{font-size:12px;font-weight:600}
+.page{display:none;animation:fu .22s ease}
+.page.active{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.back-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:1px solid var(--bd);font-family:'Manrope',sans-serif;font-size:13px;font-weight:500;color:var(--mu);padding:6px 14px;border-radius:20px;cursor:pointer;transition:all .15s;margin-bottom:22px}
+.back-btn:hover{border-color:var(--t);color:var(--t)}
+/* HOME */
+.home-wrap{min-height:calc(100vh - 56px);display:flex;flex-direction:column}
+.hero-section{position:relative;overflow:hidden;padding:80px 24px 70px;text-align:center;background:var(--s);border-bottom:1px solid var(--bd)}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--bd) 1px,transparent 1px),linear-gradient(90deg,var(--bd) 1px,transparent 1px);background-size:40px 40px;opacity:.5}
+.hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse at center,rgba(26,122,74,.08) 0%,transparent 70%);pointer-events:none}
+.hero-inner{position:relative;max-width:700px;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--gl);border:1px solid #b8dfc7;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--gr);margin-bottom:28px}
+.hero-badge-dot{width:6px;height:6px;background:var(--gr);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+h1{font-family:'Unbounded',sans-serif;font-size:clamp(26px,5vw,50px);font-weight:700;line-height:1.05;letter-spacing:-2px;margin-bottom:18px}
+h1 .accent{color:var(--gr)}
+h1 .muted{color:var(--mu)}
+.hero-sub{color:var(--mu);font-size:15px;max-width:480px;margin:0 auto 36px;line-height:1.7}
+.hero-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.btn-lg{font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;padding:13px 28px;border-radius:24px;cursor:pointer;transition:all .18s}
+.btn-lg.solid{background:var(--t);color:#fff;border:none;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.btn-lg.solid:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.btn-lg.ghost{background:none;color:var(--t);border:1.5px solid var(--bd)}
+.btn-lg.ghost:hover{border-color:var(--t)}
+.hero-trust{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mu);font-weight:500}
+.trust-dot{width:4px;height:4px;background:var(--bd);border-radius:50%}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--bd)}
+.stat-item{padding:26px 20px;text-align:center;border-right:1px solid var(--bd)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'Unbounded',sans-serif;font-size:24px;font-weight:700;display:block;margin-bottom:4px}
+.stat-label{font-size:12px;color:var(--mu);font-weight:500}
+.features-section{padding:56px 24px;max-width:1100px;margin:0 auto;width:100%}
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mu);margin-bottom:10px}
+.section-title{font-family:'Unbounded',sans-serif;font-size:clamp(18px,3vw,26px);font-weight:600;letter-spacing:-.8px;margin-bottom:36px;line-height:1.2}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.feat-card{background:var(--s);border:1px solid var(--bd);border-radius:16px;padding:22px;transition:all .2s}
+.feat-card:hover{border-color:var(--t);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.feat-icon{font-size:26px;margin-bottom:12px;display:block}
+.feat-title{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:600;letter-spacing:-.2px;margin-bottom:7px}
+.feat-desc{font-size:12px;color:var(--mu);line-height:1.55}
+.how-section{background:var(--s);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:56px 24px}
+.how-inner{max-width:900px;margin:0 auto}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:36px;position:relative}
+.steps-grid::before{content:'';position:absolute;top:24px;left:12.5%;right:12.5%;height:1px;background:var(--bd)}
+.step{text-align:center;padding:0 14px}
+.step-num{width:48px;height:48px;border-radius:50%;background:var(--t);color:#fff;font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;position:relative;z-index:1}
+.step-title{font-weight:700;font-size:13px;margin-bottom:5px}
+.step-desc{font-size:12px;color:var(--mu);line-height:1.5}
+.tags-section{padding:44px 24px;max-width:1100px;margin:0 auto;width:100%}
+.tags-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.tag-big{background:var(--s);border:1px solid var(--bd);border-radius:20px;padding:7px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.tag-big:hover{background:var(--t);color:#fff;border-color:var(--t)}
+footer{background:var(--t);color:#fff;padding:44px 24px 26px;margin-top:auto}
+.footer-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:220px 1fr 1fr 1fr;gap:36px;margin-bottom:36px}
+.footer-brand p{font-size:13px;color:rgba(255,255,255,.5);margin-top:9px;line-height:1.6}
+.footer-logo{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.footer-logo-dot{width:7px;height:7px;background:#fff;border-radius:50%}
+.footer-heading{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.4);margin-bottom:12px}
+.footer-link{display:block;font-size:13px;color:rgba(255,255,255,.65);margin-bottom:7px;cursor:pointer;transition:color .15s;text-decoration:none}
+.footer-link:hover{color:#fff}
+.footer-bottom{max-width:1100px;margin:0 auto;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.35)}
+.footer-social{display:flex;gap:8px}
+.social-icon{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:background .15s}
+.social-icon:hover{background:rgba(255,255,255,.16)}
+/* FEED */
+.feed-layout{max-width:1100px;margin:0 auto;padding:26px 24px;display:grid;grid-template-columns:200px 1fr;gap:20px}
+.sidebar-section{margin-bottom:22px}
+.sidebar-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);margin-bottom:8px}
+.filter-btn{display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;font-family:'Manrope',sans-serif;font-size:13px;font-weight:500;color:var(--t);padding:7px 10px;border-radius:8px;cursor:pointer;text-align:left;transition:all .15s}
+.filter-btn:hover{background:var(--tag)}
+.filter-btn.active{background:var(--t);color:#fff}
+.fdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cards-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap}
+.cards-title{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:600}
+.search-bar{display:flex;align-items:center;background:var(--s);border:1px solid var(--bd);border-radius:20px;padding:6px 14px;gap:8px;width:200px}
+.search-bar input{background:none;border:none;outline:none;font-family:'Manrope',sans-serif;font-size:13px;color:var(--t);width:100%}
+.search-bar input::placeholder{color:var(--mu)}
+.cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--s);border:1px solid var(--bd);border-radius:14px;cursor:pointer;transition:all .2s;overflow:hidden;display:flex;flex-direction:column}
+.card:hover{border-color:var(--t);box-shadow:0 6px 22px rgba(0,0,0,.09);transform:translateY(-2px)}
+.card-cover{width:100%;height:140px;object-fit:cover;display:block;background:var(--tag)}
+.card-cover-ph{width:100%;height:140px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,var(--tag) 0%,var(--bd) 100%)}
+.card-body{padding:14px 16px;flex:1;display:flex;flex-direction:column}
+.card-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+.card-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:3px 7px;border-radius:4px;flex-shrink:0}
+.type-freelance{background:var(--gl);color:var(--gr)}
+.type-collab{background:var(--bll);color:var(--bl)}
+.type-event{background:var(--ol);color:var(--or)}
+.card-title{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:600;letter-spacing:-.2px;margin-bottom:5px;line-height:1.35}
+.card-desc{font-size:12px;color:var(--mu);margin-bottom:10px;line-height:1.5;flex:1}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.tag{background:var(--tag);border-radius:6px;padding:2px 7px;font-size:10px;font-weight:600;color:var(--mu)}
+.card-footer{display:flex;justify-content:space-between;align-items:center}
+.card-author{display:flex;align-items:center;gap:7px}
+.avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;color:#fff}
+.card-name{font-size:11px;font-weight:500}
+.crrow{display:flex;align-items:center;gap:2px;margin-top:1px}
+.stars{display:inline-flex;gap:1px}
+.star{font-size:10px;color:#d0cec8;line-height:1}
+.star.on{color:var(--gd)}
+.star.half{color:var(--gd);opacity:.55}
+.rlabel{font-size:10px;color:var(--mu);margin-left:2px}
+.card-price{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:600}
+.paid-badge{font-size:9px;background:var(--gl);color:var(--gr);padding:2px 5px;border-radius:4px;font-weight:700;vertical-align:middle;margin-left:4px}
+/* DETAIL */
+.detail-page{max-width:760px;margin:0 auto;padding:26px 24px 60px}
+.detail-hero{background:var(--s);border:1px solid var(--bd);border-radius:18px;overflow:hidden;margin-bottom:16px}
+.detail-cover{width:100%;height:300px;object-fit:cover;display:block}
+.detail-cover-ph{width:100%;height:240px;display:flex;align-items:center;justify-content:center;font-size:80px;background:linear-gradient(135deg,var(--tag) 0%,var(--bd) 100%)}
+.detail-body{padding:24px 26px}
+.detail-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.detail-title{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:600;letter-spacing:-.5px;line-height:1.2}
+.detail-desc{font-size:14px;color:var(--mu);line-height:1.7;margin-bottom:16px}
+.detail-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.dsec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);margin-bottom:8px;margin-top:16px}
+.price-box{display:inline-flex;align-items:baseline;gap:4px;background:var(--tag);border-radius:10px;padding:9px 14px;flex-shrink:0}
+.price-big{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:700}
+.author-card{background:var(--bg);border-radius:14px;padding:13px 15px;display:flex;align-items:center;gap:12px;margin-top:14px;cursor:pointer;border:1px solid transparent;transition:border .15s}
+.author-card:hover{border-color:var(--bd)}
+.av-lg{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
+.author-name{font-size:14px;font-weight:600;margin-bottom:2px}
+.author-uni{font-size:12px;color:var(--mu)}
+.contacts-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.cbtn{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:11px;border:1px solid var(--bd);background:var(--s);cursor:pointer;text-decoration:none;color:var(--t);font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;transition:all .15s}
+.cbtn:hover{border-color:var(--t)}
+.cicon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.apply-btn{width:100%;padding:13px;background:var(--t);color:#fff;border:none;border-radius:13px;font-family:'Unbounded',sans-serif;font-size:13px;font-weight:600;cursor:pointer;margin-top:16px;transition:opacity .15s}
+.apply-btn:hover{opacity:.85}
+.apply-btn.free{background:var(--gr)}
+/* POST */
+.post-page{max-width:600px;margin:0 auto;padding:32px 24px}
+.ph{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.5px;margin-bottom:6px}
+.ps{color:var(--mu);font-size:13px;margin-bottom:22px}
+.form-group{margin-bottom:14px}
+.fl{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mu);margin-bottom:5px}
+.form-input,.form-textarea,.form-select{width:100%;background:var(--s);border:1px solid var(--bd);border-radius:10px;padding:9px 12px;font-family:'Manrope',sans-serif;font-size:14px;color:var(--t);outline:none;transition:border-color .15s}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--t)}
+.form-textarea{resize:vertical;min-height:86px}
+.type-select{display:flex;gap:8px}
+.type-opt{flex:1;padding:9px 6px;border-radius:10px;border:1px solid var(--bd);background:var(--s);font-family:'Manrope',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s}
+.type-opt.sel{border-color:var(--t);background:var(--t);color:#fff}
+.btn-submit{width:100%;padding:13px;background:var(--t);color:#fff;border:none;border-radius:12px;font-family:'Unbounded',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:opacity .15s;margin-top:4px}
+.btn-submit:hover{opacity:.85}
+.img-upload-area{border:2px dashed var(--bd);border-radius:12px;padding:22px;text-align:center;cursor:pointer;transition:all .15s;background:var(--s)}
+.img-upload-area:hover{border-color:var(--t);background:var(--tag)}
+.img-upload-area input{display:none}
+.img-preview-wrap{position:relative;display:inline-block;margin-top:10px;width:100%}
+.img-preview{width:100%;max-height:200px;object-fit:cover;border-radius:8px;display:none}
+.img-remove{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.5);color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center}
+/* MYPOSTS */
+.myposts-page{max-width:800px;margin:0 auto;padding:26px 24px}
+.mypost-card{background:var(--s);border:1px solid var(--bd);border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;gap:12px;align-items:center}
+.mypost-img-wrap{width:56px;height:56px;border-radius:8px;object-fit:cover;flex-shrink:0;background:var(--tag);display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden}
+.mypost-info{flex:1}
+.mypost-title{font-weight:700;font-size:14px;margin-bottom:3px}
+.mypost-meta{font-size:12px;color:var(--mu)}
+.mypost-actions{display:flex;gap:6px;flex-shrink:0}
+.mypost-btn{padding:6px 12px;border-radius:8px;font-family:'Manrope',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--bd);background:none;transition:all .15s}
+.mypost-btn:hover{border-color:var(--t)}
+.mypost-btn.del{color:var(--rd)}
+.mypost-btn.del:hover{background:#fdf0ee;border-color:#fdf0ee}
+/* PROFILE */
+.profile-page{max-width:680px;margin:0 auto;padding:32px 24px}
+.phbox{background:var(--s);border:1px solid var(--bd);border-radius:18px;padding:20px 22px;margin-bottom:14px;display:flex;align-items:flex-start;gap:14px}
+.avxl{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:700;color:#fff;background:#2a2a27;flex-shrink:0}
+.pname{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.4px;margin-bottom:3px}
+.pinfo{font-size:13px;color:var(--mu);margin-bottom:6px}
+.psr{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.pscore{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:600;color:var(--gd)}
+.skills-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.rev-box{background:var(--s);border:1px solid var(--bd);border-radius:18px;padding:20px 24px;margin-top:12px}
+.rev-card{border-bottom:1px solid var(--bd);padding:11px 0}
+.rev-card:last-child{border-bottom:none;padding-bottom:0}
+.rev-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.rev-author{font-size:13px;font-weight:600}
+.rev-text{font-size:13px;color:var(--mu);line-height:1.5}
+.spicker{display:flex;gap:5px;margin-bottom:10px}
+.spick{font-size:26px;cursor:pointer;transition:transform .1s;color:#d0cec8;line-height:1}
+.spick.lit{color:var(--gd)}
+.spick:hover{transform:scale(1.2)}
+/* AUTH */
+.auth-page{max-width:420px;margin:52px auto;padding:0 24px}
+.auth-card{background:var(--s);border:1px solid var(--bd);border-radius:20px;padding:32px 28px}
+.auth-logo{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;display:flex;align-items:center;gap:7px;justify-content:center;margin-bottom:20px}
+.auth-tabs{display:flex;background:var(--tag);border-radius:10px;padding:3px;margin-bottom:20px}
+.atab{flex:1;padding:7px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;border-radius:8px;transition:all .15s;border:none;background:none;font-family:'Manrope',sans-serif;color:var(--mu)}
+.atab.active{background:var(--s);color:var(--t);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.auth-div{text-align:center;font-size:12px;color:var(--mu);margin:12px 0;position:relative}
+.auth-div::before,.auth-div::after{content:'';position:absolute;top:50%;width:40%;height:1px;background:var(--bd)}
+.auth-div::before{left:0}.auth-div::after{right:0}
+.sbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:9px;border:1px solid var(--bd);border-radius:10px;background:var(--s);font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.sbtn:hover{border-color:var(--t)}
+.social-btns{display:flex;gap:8px;margin-bottom:12px}
+.form-row{display:flex;gap:8px}
+.form-row .form-group{flex:1}
+.auth-terms{font-size:11px;color:var(--mu);text-align:center;margin-top:12px;line-height:1.5}
+.auth-terms a{color:var(--t);text-decoration:underline;cursor:pointer}
+/* DB */
+.db-page{max-width:1000px;margin:0 auto;padding:26px 24px}
+.db-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.db-table{width:100%;border-collapse:collapse;background:var(--s);border-radius:14px;overflow:hidden;border:1px solid var(--bd)}
+.db-table th{background:var(--tag);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--mu);padding:10px 12px;text-align:left;border-bottom:1px solid var(--bd)}
+.db-table td{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--tag);vertical-align:middle}
+.db-table tr:last-child td{border-bottom:none}
+.db-table tr:hover td{background:var(--bg)}
+.dbdel{background:none;border:none;color:var(--rd);cursor:pointer;font-size:16px;opacity:.7;transition:opacity .15s}
+.dbdel:hover{opacity:1}
+.db-search{display:flex;align-items:center;background:var(--s);border:1px solid var(--bd);border-radius:20px;padding:6px 13px;gap:7px;width:200px}
+.db-search input{background:none;border:none;outline:none;font-family:'Manrope',sans-serif;font-size:13px;color:var(--t);width:100%}
+/* CHATS */
+.chats-layout{max-width:960px;margin:0 auto;padding:26px 24px;display:grid;grid-template-columns:260px 1fr;gap:14px;height:calc(100vh - 110px)}
+.chat-list{background:var(--s);border:1px solid var(--bd);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.chat-list-hdr{padding:14px 16px;border-bottom:1px solid var(--bd);font-family:'Unbounded',sans-serif;font-size:13px;font-weight:600}
+.chat-list-search{padding:9px 12px;border-bottom:1px solid var(--bd)}
+.chat-list-search input{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:20px;padding:6px 12px;font-family:'Manrope',sans-serif;font-size:13px;color:var(--t);outline:none}
+.chat-items{flex:1;overflow-y:auto}
+.chat-item{display:flex;align-items:center;gap:10px;padding:11px 13px;cursor:pointer;border-bottom:1px solid var(--tag);transition:background .15s}
+.chat-item:hover,.chat-item.sel{background:var(--tag)}
+.chat-item-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.chat-item-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.chat-item-preview{font-size:11px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
+.chat-unread{background:var(--t);color:#fff;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto}
+.chat-window{background:var(--s);border:1px solid var(--bd);border-radius:16px;display:flex;flex-direction:column;overflow:hidden}
+.cwmsg-area{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px}
+.cmsg{max-width:75%}
+.cmsg.me{align-self:flex-end}
+.cmsg.other{align-self:flex-start}
+.cmsg-bub{padding:9px 12px;border-radius:14px;font-size:13px;line-height:1.5}
+.cmsg.me .cmsg-bub{background:var(--t);color:#fff;border-bottom-right-radius:3px}
+.cmsg.other .cmsg-bub{background:var(--tag);border-bottom-left-radius:3px}
+.cmsg-time{font-size:10px;color:var(--mu);margin-top:2px}
+.cmsg.me .cmsg-time{text-align:right}
+.cw-irow{padding:9px 13px;border-top:1px solid var(--bd);display:flex;gap:7px;align-items:flex-end;flex-shrink:0}
+.cw-input{flex:1;background:var(--bg);border:1px solid var(--bd);border-radius:16px;padding:8px 12px;font-family:'Manrope',sans-serif;font-size:13px;color:var(--t);outline:none;resize:none;max-height:80px;line-height:1.4;transition:border-color .15s}
+.cw-input:focus{border-color:var(--t)}
+.cw-send{width:34px;height:34px;border-radius:50%;background:var(--t);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-placeholder{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--mu)}
+/* GROUPS */
+.groups-page{max-width:900px;margin:0 auto;padding:26px 24px}
+.groups-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.group-card{background:var(--s);border:1px solid var(--bd);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .2s}
+.group-card:hover{border-color:var(--t);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.07)}
+.group-cover{width:100%;height:100px;object-fit:cover;display:block}
+.group-cover-ph{width:100%;height:90px;display:flex;align-items:center;justify-content:center;font-size:36px;background:linear-gradient(135deg,var(--tag) 0%,var(--bd) 100%)}
+.group-body{padding:14px}
+.group-name{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:600;letter-spacing:-.2px;margin-bottom:5px}
+.group-desc{font-size:11px;color:var(--mu);line-height:1.5;margin-bottom:10px}
+.group-meta{display:flex;align-items:center;justify-content:space-between}
+.group-members{font-size:11px;color:var(--mu);font-weight:500}
+.group-type-badge{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:2px 6px;border-radius:4px}
+.group-room-layout{max-width:960px;margin:0 auto;padding:0 24px 60px;display:grid;grid-template-columns:1fr 220px;gap:14px}
+.group-chat-area{background:var(--s);border:1px solid var(--bd);border-radius:16px;display:flex;flex-direction:column;overflow:hidden;max-height:calc(100vh - 140px)}
+.group-hdr{padding:13px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.group-hdr-emoji{font-size:20px}
+.group-hdr-name{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:600}
+.group-hdr-count{font-size:11px;color:var(--mu)}
+.group-msgs{flex:1;overflow-y:auto;padding:13px;display:flex;flex-direction:column;gap:9px}
+.group-members-sb{background:var(--s);border:1px solid var(--bd);border-radius:16px;padding:14px;overflow-y:auto;max-height:calc(100vh - 140px)}
+.gm-item{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid var(--tag)}
+.gm-item:last-child{border-bottom:none}
+.gm-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.gm-name{font-size:12px;font-weight:600}
+.gm-role{font-size:10px;color:var(--mu)}
+/* MODALS */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.28);backdrop-filter:blur(5px);z-index:600;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-ov.open{display:flex}
+.modal{background:var(--s);border-radius:18px;padding:26px;width:420px;max-width:100%;animation:fu .2s ease;max-height:90vh;overflow-y:auto}
+.modal-title{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:600;margin-bottom:5px}
+.modal-sub{font-size:13px;color:var(--mu);margin-bottom:18px}
+.modal-actions{display:flex;gap:8px;margin-top:14px}
+.mcancl{flex:1;padding:10px;border-radius:10px;background:var(--tag);color:var(--t);border:none;font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;cursor:pointer}
+.msubmit{flex:1;padding:10px;border-radius:10px;background:var(--t);color:#fff;border:none;font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;cursor:pointer}
+.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px}
+.pay-card{border:1.5px solid var(--bd);border-radius:10px;padding:11px 12px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600}
+.pay-card:hover,.pay-card.sel{border-color:var(--t);background:var(--tag)}
+.pay-logo{font-size:18px}
+.pay-form{display:none}
+.pay-form.vis{display:block}
+.pay-input-row{display:flex;gap:8px}
+.pay-input-row .form-group{flex:1}
+/* AI BUBBLE */
+.chat-bubble{position:fixed;bottom:22px;right:22px;z-index:700}
+.chat-toggle{width:50px;height:50px;border-radius:50%;background:var(--t);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,.18);transition:transform .2s;font-size:20px}
+.chat-toggle:hover{transform:scale(1.08)}
+.chat-notif{position:absolute;top:1px;right:1px;width:14px;height:14px;background:#e03e3e;border-radius:50%;border:2px solid var(--bg);font-size:8px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center}
+.chat-win-ai{position:fixed;bottom:82px;right:22px;z-index:700;width:310px;height:430px;background:var(--s);border-radius:20px;border:1px solid var(--bd);box-shadow:0 14px 44px rgba(0,0,0,.14);display:flex;flex-direction:column;opacity:0;transform:translateY(14px) scale(.96);pointer-events:none;transition:all .25s cubic-bezier(.16,1,.3,1)}
+.chat-win-ai.open{opacity:1;transform:none;pointer-events:all}
+.ai-hdr{padding:12px 14px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;flex-shrink:0}
+.ai-av{width:30px;height:30px;border-radius:50%;background:var(--t);display:flex;align-items:center;justify-content:center;font-size:14px}
+.ai-hdr-name{font-size:13px;font-weight:600}
+.ai-hdr-status{font-size:11px;color:var(--gr);display:flex;align-items:center;gap:3px}
+.ai-hdr-status::before{content:'';display:inline-block;width:5px;height:5px;background:var(--gr);border-radius:50%}
+.ai-close{margin-left:auto;background:none;border:none;cursor:pointer;color:var(--mu);font-size:20px;line-height:1;padding:2px}
+.ai-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}
+.msg{max-width:84%}
+.msg.user{align-self:flex-end}
+.msg.bot{align-self:flex-start}
+.msg-bub{padding:8px 11px;border-radius:13px;font-size:13px;line-height:1.5}
+.msg.user .msg-bub{background:var(--t);color:#fff;border-bottom-right-radius:3px}
+.msg.bot .msg-bub{background:var(--tag);color:var(--t);border-bottom-left-radius:3px}
+.msg-time{font-size:10px;color:var(--mu);margin-top:2px}
+.msg.user .msg-time{text-align:right}
+.tdots{display:inline-flex;gap:3px;align-items:center;padding:8px 11px;background:var(--tag);border-radius:13px;border-bottom-left-radius:3px}
+.tdots span{width:5px;height:5px;background:var(--mu);border-radius:50%;animation:td 1.2s infinite}
+.tdots span:nth-child(2){animation-delay:.2s}
+.tdots span:nth-child(3){animation-delay:.4s}
+@keyframes td{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.ai-irow{padding:8px 11px;border-top:1px solid var(--bd);display:flex;gap:6px;align-items:flex-end;flex-shrink:0}
+.ai-input{flex:1;background:var(--bg);border:1px solid var(--bd);border-radius:14px;padding:7px 11px;font-family:'Manrope',sans-serif;font-size:13px;color:var(--t);outline:none;resize:none;max-height:78px;line-height:1.4;transition:border-color .15s}
+.ai-input:focus{border-color:var(--t)}
+.ai-send{width:30px;height:30px;border-radius:50%;background:var(--t);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
+.ai-send:hover{opacity:.8}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--t);color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.info-box{background:var(--gl);border:1px solid #b8dfc7;border-radius:10px;padding:10px 13px;font-size:12px;color:var(--gr);margin-bottom:14px}
+.warn-box{background:var(--ol);border:1px solid #e0b890;border-radius:10px;padding:10px 13px;font-size:12px;color:var(--or);margin-bottom:14px}
+
+/* ══════════════════════════════════════════
+   AI INTERVIEW FULLSCREEN
+══════════════════════════════════════════ */
+.iv-overlay{position:fixed;inset:0;background:#0c0c0b;z-index:800;display:none;flex-direction:column}
+.iv-overlay.open{display:flex}
+/* top steps bar */
+.iv-steps-bar{background:#111110;border-bottom:1px solid #1e1e1c;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.iv-steps-inner{display:flex;align-items:center;gap:0}
+.iv-step{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#3a3a38;transition:color .3s}
+.iv-step.active{color:#fff}
+.iv-step.done{color:#1a7a4a}
+.iv-step-dot{width:28px;height:28px;border-radius:50%;background:#1e1e1c;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:all .3s;flex-shrink:0}
+.iv-step.active .iv-step-dot{background:#fff;color:#111}
+.iv-step.done .iv-step-dot{background:#1a7a4a;color:#fff}
+.iv-step-line{width:48px;height:1px;background:#1e1e1c;margin:0 6px}
+.iv-step-line.done{background:#1a7a4a}
+.iv-close-x{background:none;border:none;color:#444;font-size:22px;cursor:pointer;line-height:1;padding:4px;transition:color .15s}
+.iv-close-x:hover{color:#aaa}
+/* panels */
+.iv-panel{flex:1;display:none;flex-direction:column;overflow:hidden}
+.iv-panel.active{display:flex}
+/* PANEL 1 — intro form */
+.iv-intro{flex:1;display:flex;align-items:center;justify-content:center;padding:24px}
+.iv-intro-card{background:#161614;border:1px solid #2a2a28;border-radius:22px;padding:44px 40px;max-width:500px;width:100%}
+.iv-job-cover{width:100%;height:140px;object-fit:cover;border-radius:12px;margin-bottom:22px;background:#1e1e1c}
+.iv-job-cover-ph{width:100%;height:120px;display:flex;align-items:center;justify-content:center;font-size:52px;background:#1e1e1c;border-radius:12px;margin-bottom:22px}
+.iv-intro-title{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:8px;line-height:1.25}
+.iv-intro-sub{font-size:13px;color:#555;line-height:1.6;margin-bottom:28px}
+.iv-steps-preview{display:flex;gap:10px;margin-bottom:28px}
+.iv-step-prev{flex:1;background:#1e1e1c;border-radius:10px;padding:12px 10px;text-align:center}
+.iv-step-prev-icon{font-size:20px;margin-bottom:5px}
+.iv-step-prev-label{font-size:11px;color:#555;font-weight:600}
+.iv-dark-input{width:100%;background:#111110;border:1px solid #2a2a28;border-radius:10px;padding:11px 14px;font-family:'Manrope',sans-serif;font-size:14px;color:#fff;outline:none;transition:border-color .15s;margin-bottom:10px}
+.iv-dark-input:focus{border-color:#444}
+.iv-dark-input::placeholder{color:#444}
+.iv-start-btn{width:100%;padding:14px;background:#1a7a4a;color:#fff;border:none;border-radius:12px;font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .15s;margin-top:4px}
+.iv-start-btn:hover{opacity:.88}
+/* PANEL 2 — AI interview chat */
+.iv-chat-inner{flex:1;display:flex;flex-direction:column;max-width:740px;margin:0 auto;width:100%;padding:0 20px}
+.iv-chat-header{padding:16px 0;border-bottom:1px solid #1e1e1c;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.iv-chat-who{display:flex;align-items:center;gap:12px}
+.iv-ai-big-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1a7a4a,#2ecc71);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.iv-chat-hdr-name{font-size:14px;font-weight:700;color:#fff}
+.iv-chat-hdr-sub{font-size:12px;color:#555}
+.iv-progress-wrap{flex-shrink:0}
+.iv-prog-label{font-size:11px;color:#555;margin-bottom:4px;text-align:right}
+.iv-prog-bar{width:120px;height:4px;background:#1e1e1c;border-radius:2px}
+.iv-prog-fill{height:100%;background:linear-gradient(90deg,#1a7a4a,#2ecc71);border-radius:2px;transition:width .5s ease}
+.iv-msgs{flex:1;overflow-y:auto;padding:18px 0;display:flex;flex-direction:column;gap:14px}
+.iv-msgs::-webkit-scrollbar{width:3px}
+.iv-msgs::-webkit-scrollbar-thumb{background:#2a2a28}
+.iv-msg{display:flex;gap:10px}
+.iv-msg.ai-msg{align-self:flex-start;max-width:80%}
+.iv-msg.user-msg{align-self:flex-end;flex-direction:row-reverse;max-width:80%}
+.iv-msg-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:2px}
+.iv-msg-av.is-ai{background:linear-gradient(135deg,#1a7a4a,#2ecc71)}
+.iv-msg-av.is-user{background:#2a2a28;color:#aaa;font-size:11px;font-weight:700}
+.iv-msg-bubble{padding:12px 15px;border-radius:16px;font-size:13px;line-height:1.6;color:#ddd}
+.iv-msg.ai-msg .iv-msg-bubble{background:#161614;border:1px solid #2a2a28;border-bottom-left-radius:3px}
+.iv-msg.user-msg .iv-msg-bubble{background:#0d2318;border:1px solid #1a7a4a33;color:#ccc;border-bottom-right-radius:3px}
+.iv-typing-bub{display:inline-flex;gap:4px;align-items:center;padding:12px 15px;background:#161614;border:1px solid #2a2a28;border-radius:16px;border-bottom-left-radius:3px}
+.iv-typing-bub span{width:5px;height:5px;background:#444;border-radius:50%;animation:ivtd 1.2s infinite}
+.iv-typing-bub span:nth-child(2){animation-delay:.2s}
+.iv-typing-bub span:nth-child(3){animation-delay:.4s}
+@keyframes ivtd{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.iv-input-row{padding:14px 0;border-top:1px solid #1e1e1c;display:flex;gap:8px;align-items:flex-end;flex-shrink:0}
+.iv-textarea{flex:1;background:#161614;border:1px solid #2a2a28;border-radius:14px;padding:11px 14px;font-family:'Manrope',sans-serif;font-size:13px;color:#fff;outline:none;resize:none;max-height:90px;line-height:1.4;transition:border-color .15s}
+.iv-textarea:focus{border-color:#444}
+.iv-textarea::placeholder{color:#444}
+.iv-send-btn{width:38px;height:38px;border-radius:50%;background:#1a7a4a;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
+.iv-send-btn:hover{opacity:.8}
+.iv-send-btn:disabled{opacity:.3;cursor:not-allowed}
+.iv-next-test-btn{width:100%;padding:13px;background:#1a7a4a;color:#fff;border:none;border-radius:12px;font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px;transition:opacity .15s;display:none}
+.iv-next-test-btn:hover{opacity:.88}
+/* PANEL 3 — TEST */
+.iv-test-inner{flex:1;overflow-y:auto;padding:24px 20px;max-width:720px;margin:0 auto;width:100%}
+.iv-test-inner::-webkit-scrollbar{width:3px}
+.iv-test-inner::-webkit-scrollbar-thumb{background:#2a2a28}
+.iv-test-header{margin-bottom:24px}
+.iv-test-title{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:6px}
+.iv-test-desc{font-size:13px;color:#555;margin-bottom:14px}
+.iv-test-prog{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.iv-test-prog-bar{flex:1;height:4px;background:#1e1e1c;border-radius:2px}
+.iv-test-prog-fill{height:100%;background:linear-gradient(90deg,#1a7a4a,#2ecc71);border-radius:2px;transition:width .4s}
+.iv-test-prog-label{font-size:12px;color:#444;font-weight:600;white-space:nowrap}
+.iv-q-block{background:#161614;border:1px solid #2a2a28;border-radius:16px;padding:22px;margin-bottom:14px;transition:border-color .3s}
+.iv-q-block.answered{border-color:#1a7a4a33}
+.iv-q-idx{font-size:11px;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.iv-q-text{font-size:14px;color:#ddd;line-height:1.55;margin-bottom:16px;font-weight:500}
+.iv-options{display:flex;flex-direction:column;gap:8px}
+.iv-opt{padding:11px 15px;border-radius:10px;border:1px solid #2a2a28;background:#111;color:#888;cursor:pointer;font-family:'Manrope',sans-serif;font-size:13px;font-weight:500;text-align:left;transition:all .15s;line-height:1.4}
+.iv-opt:hover:not(:disabled){border-color:#444;color:#ddd;background:#1a1a18}
+.iv-opt.sel{border-color:#1a7a4a;background:#0d2318;color:#fff}
+.iv-opt.correct{border-color:#1a7a4a!important;background:#0d2318!important;color:#2ecc71!important}
+.iv-opt.wrong{border-color:#c0392b!important;background:#2b0d0d!important;color:#e74c3c!important}
+.iv-opt:disabled{cursor:default}
+.iv-submit-test{width:100%;padding:14px;background:#fff;color:#111;border:none;border-radius:12px;font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px;transition:opacity .15s}
+.iv-submit-test:hover{opacity:.88}
+/* PANEL 4 — RESULT */
+.iv-result-inner{flex:1;display:flex;align-items:center;justify-content:center;padding:24px}
+.iv-result-card{background:#161614;border:1px solid #2a2a28;border-radius:24px;padding:44px 36px;max-width:520px;width:100%;text-align:center}
+.iv-result-emoji{font-size:64px;margin-bottom:20px;display:block}
+.iv-result-title{font-family:'Unbounded',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.2}
+.iv-result-sub{font-size:14px;color:#555;margin-bottom:28px;line-height:1.6}
+.iv-score-ring{width:120px;height:120px;margin:0 auto 18px;position:relative;display:flex;align-items:center;justify-content:center}
+.iv-score-ring svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.iv-score-ring-bg{fill:none;stroke:#1e1e1c;stroke-width:8}
+.iv-score-ring-fg{fill:none;stroke:#1a7a4a;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1s ease}
+.iv-score-num{font-family:'Unbounded',sans-serif;font-size:26px;font-weight:700;color:#fff;position:relative;z-index:1}
+.iv-score-num span{display:block;font-size:11px;color:#555;font-family:'Manrope',sans-serif;font-weight:500;margin-top:2px}
+.iv-breakdown{background:#111;border-radius:14px;padding:16px;margin:20px 0;text-align:left}
+.iv-breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #1e1e1c;font-size:13px}
+.iv-breakdown-row:last-child{border-bottom:none}
+.iv-bd-label{color:#555}
+.iv-bd-val{font-weight:700;color:#fff}
+.iv-bd-val.good{color:#2ecc71}
+.iv-bd-val.bad{color:#e74c3c}
+.iv-result-btn{width:100%;padding:13px;border:none;border-radius:12px;font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-top:6px;transition:opacity .15s}
+.iv-result-btn.primary{background:#1a7a4a;color:#fff}
+.iv-result-btn.secondary{background:#1e1e1c;color:#aaa;margin-top:8px}
+.iv-result-btn:hover{opacity:.88}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo" onclick="go('home')"><div class="logo-dot"></div>StudentHub</div>
+  <div class="nav-links">
+    <button class="nb active" onclick="go('home',this)">Басты бет</button>
+    <button class="nb" onclick="go('feed',this)">Биржа</button>
+    <button class="nb" onclick="go('post',this)">Жарнама</button>
+    <button class="nb" onclick="go('myposts',this)" id="mypostsNav" style="display:none">📋 Менікі</button>
+    <button class="nb" onclick="go('chats',this)" id="chatsNav" style="display:none">💬 Чаттар</button>
+    <button class="nb" onclick="go('groups',this)">👥 Топтар</button>
+    <button class="nb" onclick="go('profile',this)">Профиль</button>
+    <button class="nb" onclick="go('db',this)" id="dbNav" style="display:none">🗄 Клиенттер</button>
+  </div>
+  <div class="nav-right" id="navRight">
+    <button class="btn-o" onclick="go('auth')">Кіру</button>
+    <button class="btn-s" onclick="go('auth')">Тіркелу</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="home-wrap">
+    <div class="hero-section">
+      <div class="hero-grid-bg"></div><div class="hero-glow"></div>
+      <div class="hero-inner">
+        <div class="hero-badge"><div class="hero-badge-dot"></div>847 студент онлайн қазір</div>
+        <h1>Студенттерге<br><span class="accent">арналған</span> биржа<br><span class="muted">Қазақстан</span></h1>
+        <p class="hero-sub">Фриланс тапсырмалар, бірлескен стартаптар, митаптар — барлығы бір платформада.</p>
+        <div class="hero-actions">
+          <button class="btn-lg solid" onclick="go('feed')">🚀 Тапсырмаларды қарау</button>
+          <button class="btn-lg ghost" onclick="go('auth')">Тіркелу — тегін</button>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-item">✓ Тіркелу тегін</div><div class="trust-dot"></div>
+          <div class="trust-item">✓ AI сұхбат + тест</div><div class="trust-dot"></div>
+          <div class="trust-item">✓ Қауіпсіз төлем</div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-item"><span class="stat-num">1 240</span><span class="stat-label">Студент</span></div>
+      <div class="stat-item"><span class="stat-num">386</span><span class="stat-label">Белсенді тапсырма</span></div>
+      <div class="stat-item"><span class="stat-num">94</span><span class="stat-label">Аяқталған жоба</span></div>
+      <div class="stat-item"><span class="stat-num">18</span><span class="stat-label">Митап өтті</span></div>
+    </div>
+    <div class="features-section">
+      <div class="section-label">Мүмкіндіктер</div>
+      <div class="section-title">Платформада не бар?</div>
+      <div class="features-grid">
+        <div class="feat-card"><span class="feat-icon">🤖</span><div class="feat-title">AI Сұхбат</div><div class="feat-desc">Өтінімнен кейін AI-мен нақты сұхбат өтесің — жауаптарыңды бағалайды.</div></div>
+        <div class="feat-card"><span class="feat-icon">📝</span><div class="feat-title">AI Тест</div><div class="feat-desc">10 сұраққа дейін тест — дағдыларыңды дәл бағалауға арналған.</div></div>
+        <div class="feat-card"><span class="feat-icon">💼</span><div class="feat-title">Фриланс тапсырмалар</div><div class="feat-desc">Тапсырмалар орналастыр, орындаушы тап — сенімді рейтинг жүйесімен.</div></div>
+        <div class="feat-card"><span class="feat-icon">🤝</span><div class="feat-title">Серіктес іздеу</div><div class="feat-desc">Стартап немесе хакатон үшін команда жина.</div></div>
+        <div class="feat-card"><span class="feat-icon">💳</span><div class="feat-title">Қауіпсіз төлем</div><div class="feat-desc">Kaspi, Visa/MC немесе крипто арқылы.</div></div>
+        <div class="feat-card"><span class="feat-icon">⭐</span><div class="feat-title">Рейтинг жүйесі</div><div class="feat-desc">Пікірлер мен баға — сенімді орындаушыларды оңай табасың.</div></div>
+      </div>
+    </div>
+    <div class="how-section">
+      <div class="how-inner">
+        <div class="section-label" style="text-align:center">Қалай жұмыс істейді</div>
+        <div class="section-title" style="text-align:center;max-width:500px;margin:0 auto">5 қадаммен жұмыс бастау</div>
+        <div class="steps-grid">
+          <div class="step"><div class="step-num">1</div><div class="step-title">Тіркел</div><div class="step-desc">Email арқылы тіркел</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-title">Тапсырма тап</div><div class="step-desc">Биржадан тапсырма таңда</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-title">AI Сұхбат</div><div class="step-desc">AI-мен тірі сұхбат</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-title">Тест тапсыр</div><div class="step-desc">10 сұраулы тест</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="tags-section">
+      <div class="section-label">Трендтер</div>
+      <div class="section-title">Танымал категориялар</div>
+      <div class="tags-cloud">
+        <span class="tag-big" onclick="go('feed')">💻 React</span>
+        <span class="tag-big" onclick="go('feed')">🐍 Python</span>
+        <span class="tag-big" onclick="go('feed')">🎨 Figma</span>
+        <span class="tag-big" onclick="go('feed')">📱 Flutter</span>
+        <span class="tag-big" onclick="go('feed')">🤖 Machine Learning</span>
+        <span class="tag-big" onclick="go('feed')">📊 Data Science</span>
+        <span class="tag-big" onclick="go('feed')">✍️ Контент</span>
+        <span class="tag-big" onclick="go('feed')">🏆 Хакатон</span>
+        <span class="tag-big" onclick="go('feed')">🚀 Стартап</span>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand"><div class="footer-logo"><div class="footer-logo-dot"></div>StudentHub</div><p>Қазақстан студенттеріне арналған фриланс биржасы.</p></div>
+        <div><div class="footer-heading">Платформа</div><a class="footer-link" onclick="go('feed')">Барлық жарнамалар</a><a class="footer-link" onclick="go('post')">Жарнама орналастыру</a><a class="footer-link" onclick="go('groups')">Топтар</a></div>
+        <div><div class="footer-heading">Санаттар</div><a class="footer-link">Веб-әзірлеу</a><a class="footer-link">Дизайн</a><a class="footer-link">Деректер анализі</a></div>
+        <div><div class="footer-heading">Байланыс</div><a class="footer-link"><span class="__cf_email__" data-cfemail="c8bbbdb8b8a7babc88bbbcbdacada6bca0bdaae6a3b2">[email&#160;protected]</span></a><a class="footer-link">Telegram: @studenthub_kz</a></div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2025 StudentHub.</div>
+        <div class="footer-social"><div class="social-icon">📱</div><div class="social-icon">✈️</div><div class="social-icon">📸</div></div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- FEED -->
+<div id="feed" class="page">
+  <div class="feed-layout">
+    <aside>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Түрі</div>
+        <button class="filter-btn active" onclick="filterCards('all',this)"><div class="fdot" style="background:#888"></div>Барлығы</button>
+        <button class="filter-btn" onclick="filterCards('freelance',this)"><div class="fdot" style="background:var(--gr)"></div>Фриланс</button>
+        <button class="filter-btn" onclick="filterCards('collab',this)"><div class="fdot" style="background:var(--bl)"></div>Бірлесу</button>
+        <button class="filter-btn" onclick="filterCards('event',this)"><div class="fdot" style="background:var(--or)"></div>Іс-шара</button>
+      </div>
+    </aside>
+    <main>
+      <div class="cards-header">
+        <div class="cards-title">Өзекті ұсыныстар</div>
+        <div class="search-bar">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#888" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="Іздеу..." oninput="searchCards(this.value)">
+        </div>
+      </div>
+      <div class="cards-grid" id="cardsGrid"></div>
+    </main>
+  </div>
+</div>
+
+<!-- DETAIL -->
+<div id="detail" class="page">
+  <div class="detail-page">
+    <button class="back-btn" onclick="goBack()">← Артқа</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- POST -->
+<div id="post" class="page">
+  <div class="post-page">
+    <button class="back-btn" onclick="go('feed')">← Артқа</button>
+    <div class="ph">Жарнама орналастыру</div>
+    <p class="ps">Тапсырма, серіктес немесе іс-шара жариялаңыз.</p>
+    <div class="form-group"><label class="fl">Түрі</label>
+      <div class="type-select">
+        <div class="type-opt sel" onclick="selType(this)">💼 Фриланс</div>
+        <div class="type-opt" onclick="selType(this)">🤝 Бірлесу</div>
+        <div class="type-opt" onclick="selType(this)">📅 Кездесу</div>
+      </div>
+    </div>
+    <div class="form-group"><label class="fl">Тақырып</label><input class="form-input" id="ptitle" type="text" placeholder="Мысалы: Лендинг үшін дизайнер керек"></div>
+    <div class="form-group"><label class="fl">Сипаттама</label><textarea class="form-textarea" id="pdesc" placeholder="Тапсырманы толық жаз..."></textarea></div>
+    <div class="form-group"><label class="fl">Дағдылар</label><input class="form-input" id="ptags" type="text" placeholder="Figma, React, Python..."></div>
+    <div class="form-group"><label class="fl">Бюджет</label><input class="form-input" id="pprice" type="text" placeholder="50 000 ₸ немесе Тегін"></div>
+    <div class="warn-box">💡 ₸ белгісімен сома жазсаңыз — төлем жүйесі. Басқасы — email өтінім + AI сұхбат.</div>
+    <div class="form-group">
+      <label class="fl">Сурет / Афиша</label>
+      <div class="img-upload-area" onclick="document.getElementById('postImgInput').click()">
+        <input type="file" id="postImgInput" accept="image/*" onchange="previewPostImg(this)">
+        <div id="postImgPh"><div style="font-size:28px;margin-bottom:6px">🖼</div><div style="font-size:13px;color:var(--mu)">Сурет жүктеу</div></div>
+        <div id="postImgPreviewWrap" style="display:none;width:100%">
+          <img id="postImgPreview" class="img-preview" style="display:block">
+          <button class="img-remove" onclick="removePostImg(event)">×</button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group"><label class="fl">WhatsApp</label><input class="form-input" id="pwa" type="text" placeholder="+7 777 123 45 67"></div>
+    <div class="form-group"><label class="fl">Telegram</label><input class="form-input" id="ptg" type="text" placeholder="@username"></div>
+    <button class="btn-submit" onclick="submitPost()">Жариялау</button>
+  </div>
+</div>
+
+<!-- MY POSTS -->
+<div id="myposts" class="page">
+  <div class="myposts-page">
+    <button class="back-btn" onclick="go('home')">← Артқа</button>
+    <div class="ph" style="margin-bottom:6px">Менің жарнамаларым</div>
+    <p class="ps">Жарияланған тапсырмаларыңыз</p>
+    <div id="mypostsGrid"></div>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="page">
+  <div class="profile-page">
+    <button class="back-btn" onclick="go('home')">← Артқа</button>
+    <div class="phbox">
+      <div class="avxl" id="profileAv">АС</div>
+      <div style="flex:1">
+        <div class="pname" id="profileName">Алекс Соколов</div>
+        <div class="pinfo" id="profileInfo">ҚазҰУ · Информатика, 3 курс</div>
+        <div class="psr"><span class="pscore" id="profileScore">4.8</span><div id="profileStars"></div><span style="font-size:12px;color:var(--mu)" id="profileRevCnt">3 пікір</span></div>
+        <div class="skills-list" id="profileSkills"><span class="tag">React</span><span class="tag">Python</span></div>
+      </div>
+      <button class="btn-o" onclick="go('auth')">✏️ Өзгерту</button>
+    </div>
+    <div class="rev-box">
+      <div style="font-family:'Unbounded',sans-serif;font-size:13px;font-weight:600;margin-bottom:10px">Пікір қалдыру</div>
+      <div class="spicker" id="profSpicker">
+        <span class="spick" onclick="pickStar('prof',1)">★</span><span class="spick" onclick="pickStar('prof',2)">★</span>
+        <span class="spick" onclick="pickStar('prof',3)">★</span><span class="spick" onclick="pickStar('prof',4)">★</span>
+        <span class="spick" onclick="pickStar('prof',5)">★</span>
+      </div>
+      <div class="form-group"><textarea class="form-textarea" id="profRevText" placeholder="Пікіріңізді жазыңыз..." style="min-height:70px"></textarea></div>
+      <button class="btn-submit" style="margin-top:0" onclick="submitProfRev()">Жариялау</button>
+      <div id="profRevList" style="margin-top:12px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH -->
+<div id="auth" class="page">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo"><div class="logo-dot"></div>StudentHub</div>
+      <div class="auth-tabs">
+        <button class="atab active" onclick="switchTab('login',this)">Кіру</button>
+        <button class="atab" onclick="switchTab('register',this)">Тіркелу</button>
+      </div>
+      <div id="loginForm">
+        <div class="social-btns"><button class="sbtn" onclick="socialLogin('Google')">🌐 Google</button><button class="sbtn" onclick="socialLogin('Kaspi')">🟡 Kaspi</button></div>
+        <div class="auth-div">немесе</div>
+        <div class="form-group"><label class="fl">Email</label><input class="form-input" id="lemail" type="email" placeholder="email@kz.com"></div>
+        <div class="form-group"><label class="fl">Құпия сөз</label><input class="form-input" id="lpass" type="password" placeholder="••••••••"></div>
+        <button class="btn-submit" onclick="doLogin()">Кіру</button>
+      </div>
+      <div id="registerForm" style="display:none">
+        <div class="form-row">
+          <div class="form-group"><label class="fl">Аты</label><input class="form-input" id="rfirst" type="text" placeholder="Айдар"></div>
+          <div class="form-group"><label class="fl">Тегі</label><input class="form-input" id="rlast" type="text" placeholder="Сейткали"></div>
+        </div>
+        <div class="form-group"><label class="fl">Email</label><input class="form-input" id="remail" type="email" placeholder="email@kz.com"></div>
+        <div class="form-group"><label class="fl">Университет</label><input class="form-input" id="runi" type="text" placeholder="ҚБТУ, ҚазҰУ..."></div>
+        <div class="form-group"><label class="fl">Мамандық</label><input class="form-input" id="rmajor" type="text" placeholder="Информатика, 3 курс"></div>
+        <div class="form-group"><label class="fl">Дағдылар</label><input class="form-input" id="rskills" type="text" placeholder="React, Figma..."></div>
+        <div class="form-group"><label class="fl">Құпия сөз</label><input class="form-input" id="rpass" type="password" placeholder="••••••••"></div>
+        <button class="btn-submit" onclick="doRegister()">Тіркелу</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHATS -->
+<div id="chats" class="page">
+  <div class="chats-layout">
+    <div class="chat-list">
+      <div class="chat-list-hdr">💬 Хабарламалар</div>
+      <div class="chat-list-search"><input type="text" placeholder="Іздеу..."></div>
+      <div class="chat-items" id="chatItems"></div>
+    </div>
+    <div class="chat-window" id="chatWindowArea">
+      <div class="chat-placeholder"><div style="font-size:44px">💬</div><div style="font-weight:600">Сөйлесу таңдаңыз</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- GROUPS -->
+<div id="groups" class="page">
+  <div class="groups-page">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <div class="ph">Топтар</div>
+      <button class="btn-s" onclick="openCreateGroup()">+ Топ құру</button>
+    </div>
+    <p class="ps">Пікірлес студенттермен байланысыңыз</p>
+    <div class="groups-grid" id="groupsGrid"></div>
+  </div>
+</div>
+
+<!-- GROUP ROOM -->
+<div id="groupRoom" class="page">
+  <div style="padding:26px 24px 10px;max-width:960px;margin:0 auto">
+    <button class="back-btn" onclick="go('groups')">← Топтарға оралу</button>
+  </div>
+  <div class="group-room-layout">
+    <div class="group-chat-area">
+      <div class="group-hdr" id="groupRoomHdr"></div>
+      <div class="group-msgs" id="groupMsgs"></div>
+      <div class="cw-irow">
+        <textarea class="cw-input" id="groupInput" placeholder="Хабарлама жаз..." rows="1" onkeydown="groupKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="cw-send" onclick="sendGroupMsg()">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.269 20.876L5.999 12zm0 0h7.5"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="group-members-sb">
+      <div style="font-family:'Unbounded',sans-serif;font-size:11px;font-weight:600;margin-bottom:10px">Мүшелер</div>
+      <div id="groupMembersList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- DB -->
+<div id="db" class="page">
+  <div class="db-page">
+    <button class="back-btn" onclick="go('home')">← Артқа</button>
+    <div class="db-header">
+      <div class="ph" style="margin:0">🗄 Клиенттер базасы</div>
+      <div class="db-search">
+        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#888" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Іздеу..." oninput="filterDb(this.value)">
+      </div>
+    </div>
+    <table class="db-table">
+      <thead><tr><th>#</th><th>Аты-жөні</th><th>Email</th><th>Университет</th><th>Дағдылар</th><th>Нәтиже</th><th>Тіркелген</th><th></th></tr></thead>
+      <tbody id="dbBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- CREATE GROUP MODAL -->
+<div class="modal-ov" id="createGroupModal">
+  <div class="modal">
+    <div class="modal-title">Жаңа топ құру</div>
+    <div class="modal-sub">Топты ат беріп, сипаттама жазыңыз</div>
+    <div class="form-group"><label class="fl">Emoji</label><input class="form-input" id="gEmoji" type="text" placeholder="🚀" maxlength="2"></div>
+    <div class="form-group"><label class="fl">Топ атауы</label><input class="form-input" id="gName" type="text" placeholder="React Developers KZ"></div>
+    <div class="form-group"><label class="fl">Сипаттама</label><textarea class="form-textarea" id="gDesc" style="min-height:68px" placeholder="Топ неге арналған..."></textarea></div>
+    <div class="form-group"><label class="fl">Санат</label>
+      <select class="form-select" id="gType">
+        <option value="IT">💻 IT</option><option value="Design">🎨 Дизайн</option>
+        <option value="Business">📈 Бизнес</option><option value="Other">🌐 Басқа</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="mcancl" onclick="closeModal('createGroupModal')">Болдырмау</button>
+      <button class="msubmit" onclick="createGroup()">Құру</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAY MODAL -->
+<div class="modal-ov" id="payModal">
+  <div class="modal" style="width:440px">
+    <div class="modal-title">💳 Төлем жасау</div>
+    <div class="modal-sub" id="payModalSub">Тапсырма үшін қауіпсіз төлем</div>
+    <div style="font-family:'Unbounded',sans-serif;font-size:13px;font-weight:600;margin-bottom:10px">Төлем тәсілін таңдаңыз</div>
+    <div class="pay-methods">
+      <div class="pay-card" onclick="selPay(this,'kaspi')"><span class="pay-logo">🟡</span>Kaspi Pay</div>
+      <div class="pay-card" onclick="selPay(this,'card')"><span class="pay-logo">💳</span>Visa / MC</div>
+      <div class="pay-card" onclick="selPay(this,'crypto')"><span class="pay-logo">₿</span>Крипто</div>
+      <div class="pay-card" onclick="selPay(this,'transfer')"><span class="pay-logo">🏦</span>Банк</div>
+    </div>
+    <div class="pay-form" id="payFormKaspi"><div class="form-group"><label class="fl">Kaspi нөмірі</label><input class="form-input" placeholder="+7 7XX XXX XX XX"></div></div>
+    <div class="pay-form" id="payFormCard">
+      <div class="form-group"><label class="fl">Карта нөмірі</label><input class="form-input" placeholder="0000 0000 0000 0000"></div>
+      <div class="pay-input-row">
+        <div class="form-group"><label class="fl">Мерзімі</label><input class="form-input" placeholder="MM/YY"></div>
+        <div class="form-group"><label class="fl">CVV</label><input class="form-input" placeholder="•••" type="password"></div>
+      </div>
+    </div>
+    <div class="pay-form" id="payFormCrypto"><div style="background:var(--tag);border-radius:10px;padding:12px;font-size:13px;color:var(--mu)">USDT TRC20:<br><strong style="color:var(--t);font-size:11px">TExampleAddress1234KZ</strong></div></div>
+    <div class="modal-actions">
+      <button class="mcancl" onclick="closeModal('payModal')">Болдырмау</button>
+      <button class="msubmit" onclick="confirmPay()">Төлеу</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+  AI INTERVIEW FULLSCREEN OVERLAY
+══════════════════════════════════════ -->
+<div class="iv-overlay" id="ivOverlay">
+  <!-- steps bar -->
+  <div class="iv-steps-bar">
+    <div class="iv-steps-inner">
+      <div class="iv-step active" id="ivStep1">
+        <div class="iv-step-dot">1</div>
+        <span>Өтінім</span>
+      </div>
+      <div class="iv-step-line" id="ivLine1"></div>
+      <div class="iv-step" id="ivStep2">
+        <div class="iv-step-dot">2</div>
+        <span>AI Сұхбат</span>
+      </div>
+      <div class="iv-step-line" id="ivLine2"></div>
+      <div class="iv-step" id="ivStep3">
+        <div class="iv-step-dot">3</div>
+        <span>Тест</span>
+      </div>
+      <div class="iv-step-line" id="ivLine3"></div>
+      <div class="iv-step" id="ivStep4">
+        <div class="iv-step-dot">4</div>
+        <span>Нәтиже</span>
+      </div>
+    </div>
+    <button class="iv-close-x" onclick="closeInterview()">×</button>
+  </div>
+
+  <!-- PANEL 1: intro / email form -->
+  <div class="iv-panel active" id="ivPanel1">
+    <div class="iv-intro">
+      <div class="iv-intro-card">
+        <div id="ivJobCoverWrap"></div>
+        <div class="iv-intro-title" id="ivJobTitle">Тапсырма атауы</div>
+        <div class="iv-intro-sub">Өтінімді жіберу үшін алдымен AI сұхбатынан өтуіңіз керек. Бұл автоматты скрининг — 5 минут алады.</div>
+        <div class="iv-steps-preview">
+          <div class="iv-step-prev"><div class="iv-step-prev-icon">💬</div><div class="iv-step-prev-label">AI Сұхбат<br>5-7 сұрақ</div></div>
+          <div class="iv-step-prev"><div class="iv-step-prev-icon">📝</div><div class="iv-step-prev-label">Тест<br>до 10 сұрақ</div></div>
+          <div class="iv-step-prev"><div class="iv-step-prev-icon">🏆</div><div class="iv-step-prev-label">Нәтиже<br>бірден</div></div>
+        </div>
+        <input class="iv-dark-input" id="ivApplyName" type="text" placeholder="Аты-жөніңіз">
+        <input class="iv-dark-input" id="ivApplyEmail" type="email" placeholder="Email *">
+        <button class="iv-start-btn" onclick="startInterview()">Бастау →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 2: AI interview chat -->
+  <div class="iv-panel" id="ivPanel2">
+    <div class="iv-chat-inner">
+      <div class="iv-chat-header">
+        <div class="iv-chat-who">
+          <div class="iv-ai-big-av">🤖</div>
+          <div>
+            <div class="iv-chat-hdr-name">StudentHub AI Рекрутер</div>
+            <div class="iv-chat-hdr-sub" id="ivChatSub">Сұхбат жүріп жатыр...</div>
+          </div>
+        </div>
+        <div class="iv-progress-wrap">
+          <div class="iv-prog-label" id="ivChatProgLabel">Сұрақ 0/7</div>
+          <div class="iv-prog-bar"><div class="iv-prog-fill" id="ivChatProgFill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="iv-msgs" id="ivMsgs"></div>
+      <div class="iv-input-row">
+        <textarea class="iv-textarea" id="ivChatInput" placeholder="Жауабыңызды жазыңыз..." rows="1" onkeydown="ivChatKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="iv-send-btn" id="ivSendBtn" onclick="sendIvAnswer()">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.269 20.876L5.999 12zm0 0h7.5"/></svg>
+        </button>
+      </div>
+      <button class="iv-next-test-btn" id="ivNextTestBtn" onclick="goToTest()">Тестке өту →</button>
+    </div>
+  </div>
+
+  <!-- PANEL 3: test -->
+  <div class="iv-panel" id="ivPanel3">
+    <div class="iv-test-inner">
+      <div class="iv-test-header">
+        <div class="iv-test-title" id="ivTestTitle">📝 Білім тесті</div>
+        <div class="iv-test-desc" id="ivTestDesc">Тапсырмаға байланысты сұрақтар. Сарапшылар жасаған.</div>
+        <div class="iv-test-prog">
+          <div class="iv-test-prog-bar"><div class="iv-test-prog-fill" id="ivTestProgFill" style="width:0%"></div></div>
+          <div class="iv-test-prog-label" id="ivTestProgLabel">0 / 0 жауапталды</div>
+        </div>
+      </div>
+      <div id="ivTestQuestions"></div>
+      <button class="iv-submit-test" id="ivSubmitTestBtn" onclick="submitTest()" style="display:none">Нәтижені көру →</button>
+    </div>
+  </div>
+
+  <!-- PANEL 4: result -->
+  <div class="iv-panel" id="ivPanel4">
+    <div class="iv-result-inner">
+      <div class="iv-result-card">
+        <span class="iv-result-emoji" id="ivResultEmoji">🎉</span>
+        <div class="iv-result-title" id="ivResultTitle">Нәтиже</div>
+        <div class="iv-result-sub" id="ivResultSub"></div>
+        <div class="iv-score-ring">
+          <svg viewBox="0 0 120 120" width="120" height="120">
+            <circle class="iv-score-ring-bg" cx="60" cy="60" r="52"/>
+            <circle class="iv-score-ring-fg" cx="60" cy="60" r="52" id="ivRingFg"
+              stroke-dasharray="326.7" stroke-dashoffset="326.7"/>
+          </svg>
+          <div class="iv-score-num" id="ivScoreNum">0%<span id="ivScoreLabel">Жалпы</span></div>
+        </div>
+        <div class="iv-breakdown" id="ivBreakdown"></div>
+        <button class="iv-result-btn primary" id="ivSendFinalBtn" onclick="sendFinalApply()">📧 Өтінімді жіберу</button>
+        <button class="iv-result-btn secondary" onclick="closeInterview()">Жабу</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI SUPPORT CHAT BUBBLE -->
+<div class="chat-bubble">
+  <div class="chat-win-ai" id="aiChat">
+    <div class="ai-hdr">
+      <div class="ai-av">🤖</div>
+      <div><div class="ai-hdr-name">StudentHub AI</div><div class="ai-hdr-status">Онлайн</div></div>
+      <button class="ai-close" onclick="toggleAI()">×</button>
+    </div>
+    <div class="ai-msgs" id="aiMsgs"></div>
+    <div class="ai-irow">
+      <textarea class="ai-input" id="aiInput" placeholder="Сұрақ жаз..." rows="1" onkeydown="aiKey(event)" oninput="autoResize(this)"></textarea>
+      <button class="ai-send" onclick="sendAI()">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.269 20.876L5.999 12zm0 0h7.5"/></svg>
+      </button>
+    </div>
+  </div>
+  <button class="chat-toggle" onclick="toggleAI()">
+    <span id="aiIcon">🤖</span>
+    <div class="chat-notif" id="aiNotif">1</div>
+  </button>
+</div>
+
+<div class="toast" id="toast"></div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ═══ SUPABASE ═══════════════════════════════════════
+const SUPA_URL = 'https://iiraobzaasoogroqjbqh.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpcmFvYnphYXNvb2dyb3FqYnFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NDQwMzIsImV4cCI6MjA5MjMyMDAzMn0.X5QLQzMvWADepbQiA0-g1HkX-UqO2nuI1RHvBa6AgO4';
+
+async function sbFetch(table, method, body, filter) {
+  var url = SUPA_URL + '/rest/v1/' + table + (filter || '');
+  var opts = {
+    method: method || 'GET',
+    headers: {
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + SUPA_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': method === 'POST' ? 'return=representation' : ''
+    }
+  };
+  if (body) opts.body = JSON.stringify(body);
+  var r = await fetch(url, opts);
+  if (!r.ok) return null;
+  var text = await r.text();
+  return text ? JSON.parse(text) : [];
+}
+
+// Получить всех клиентов из Supabase
+async function getClients() {
+  var data = await sbFetch('users', 'GET', null, '?order=date.desc');
+  return data || [];
+}
+
+// Добавить клиента в Supabase
+async function addClient(u) {
+  await sbFetch('users', 'POST', {
+    first: u.first, last: u.last, email: u.email,
+    uni: u.uni, major: u.major, skills: u.skills,
+    iv_score: u.ivScore || ''
+  });
+}
+
+// Удалить клиента из Supabase
+async function deleteClient(id) {
+  await sbFetch('users', 'DELETE', null, '?id=eq.' + id);
+}
+
+// Обновить iv_score клиента
+async function updateClientScore(email, score) {
+  await sbFetch('users', 'PATCH', { iv_score: score }, '?email=eq.' + encodeURIComponent(email));
+}
+
+
+// ══ STATE ══════════════════════════════════
+var currentUser=null,prevPage='home',currentDetailId=null,currentGroupId=null,activeChatId=null;
+var starState={},postImgData=null;
+
+// ══ DB ══════════════════════════════════════
+function getDb(k){try{return JSON.parse(localStorage.getItem('sh_'+k)||'[]');}catch(e){return[];}}
+function setDb(k,v){localStorage.setItem('sh_'+k,JSON.stringify(v));}
+function addDb(k,item){var a=getDb(k);a.push(item);setDb(k,a);}
+function seedDb(){
+  if(getDb('clients').length)return;
+  setDb('clients',[
+    {id:'u1',first:'Айдар',last:'Сейткали',email:'aidar@kbtu.kz',uni:'ҚБТУ',major:'Информатика, 2 курс',skills:'React, Node.js',date:'2025-01-10',ivScore:''},
+    {id:'u2',first:'Жансая',last:'Қасымова',email:'zhansaya@kaznu.kz',uni:'ҚазҰУ',major:'Дизайн, 3 курс',skills:'Figma, Illustrator',date:'2025-01-15',ivScore:''},
+    {id:'u3',first:'Дамир',last:'Нурланов',email:'damir@iitu.kz',uni:'ИАТУ',major:'ML, 4 курс',skills:'Python, TensorFlow',date:'2025-02-01',ivScore:''}
+  ]);
+}
+seedDb();
+
+// ══ CARD COVERS ════════════════════════════
+var cardCovers={
+  1:{url:'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80'},
+  2:{url:'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80'},
+  3:{url:'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80'},
+  4:{url:'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&q=80'},
+  5:{url:'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=80'},
+  6:{url:'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=80'}
+};
+var typeEmoji={freelance:'💼',collab:'🤝',event:'📅'};
+
+// ══ CARDS DATA ════════════════════════════
+var cardsData=[
+  {id:1,type:'freelance',title:'Стартап үшін лендинг',desc:'React-та адаптивті лендинг. Figma макеті бар.',tags:['React','Figma','CSS'],price:'20 000 ₸',name:'Михаил Т.',uni:'IITU',time:'2с бұрын',color:'#4a7c59',rating:4.9,reviews:24,wa:'+77771234567',tg:'@mikhail_dev',ig:'@mikhail.dev',fullDesc:'React-та адаптивті лендинг жасау. Дизайн Figma-да дайын. Next.js болса жақсы. Деплой Vercel-ге. Мерзім 7 күн.'},
+  {id:2,type:'collab',title:'EdTech стартапқа әзірлеуші',desc:'Fullstack developer серіктес ретінде.',tags:['Node.js','MongoDB','EdTech'],price:'Үлес',name:'Анна К.',uni:'ВШЭ',time:'5с бұрын',color:'#3a6b9c',rating:4.6,reviews:8,wa:'+77012345678',tg:'@anna_startup',ig:'@anna.edu',fullDesc:'EdTech платформа. Fullstack developer серіктес — бірге MVP шығарамыз, акциямен бөлісеміз.'},
+  {id:3,type:'event',title:'Митап: IT кейін университет',desc:'IT студенттерімен кездесу. Тағылымдама туралы.',tags:['Желілік','IT','Мансап'],price:'Тегін',name:'IT Клубы',uni:'МФТИ',time:'8с бұрын',color:'#9c5a2a',rating:5.0,reviews:31,wa:'+77001112233',tg:'@itclub_kz',ig:'@itclub.kz',fullDesc:'IT студенттері үшін митап. Kolesa Group спикерлері. Алматы, Smart Point.'},
+  {id:4,type:'freelance',title:'Диплом үшін деректер анализі',desc:'Python-да датасет анализі. Деректер бар.',tags:['Python','Data','Pandas'],price:'12 500 ₸',name:'Дарья М.',uni:'ҚазҰУ',time:'1к бұрын',color:'#7c4a7c',rating:4.3,reviews:5,wa:'+77771112233',tg:'@darya_data',ig:null,fullDesc:'500 жазбалы датасет. pandas, matplotlib. Нәтиже: графиктер + есеп. Мерзім 3 күн.'},
+  {id:5,type:'collab',title:'«Цифрлы қала» хакатонына команда',desc:'Хакатонға 2–3 қатысушы іздеймін.',tags:['Хакатон','ML','Дизайн'],price:'Жүлде',name:'Павел Р.',uni:'IITU',time:'1к бұрын',color:'#4a5c7c',rating:4.7,reviews:13,wa:'+77779998877',tg:'@pavel_hack',ig:'@pavel.r',fullDesc:'«Цифрлы қала» хакатоны. Smart city жобасы. ML инженер + дизайнер. Жүлде 1 млн ₸.'},
+  {id:6,type:'freelance',title:'Логотип және фирмалық стиль',desc:'Студенттік жоба үшін логотип + брендбук.',tags:['Логотип','Брендинг','Illustrator'],price:'15 000 ₸',name:'Сергей Л.',uni:'МАРХИ',time:'2к бұрын',color:'#7c6a3a',rating:4.1,reviews:7,wa:'+77771234500',tg:'@sergey_design',ig:'@sergey.logo',fullDesc:'Логотип + брендбук. Стиль: минималистік. SVG, PNG, PDF. 5 күн.'}
+];
+var myPosts=[],detailRevs={};
+
+// ══ GROUPS ════════════════════════════════
+var groupCovers={g1:'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&q=80',g2:'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&q=80',g3:'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&q=80',g4:'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&q=80'};
+var groupsData=[
+  {id:'g1',emoji:'💻',name:'React KZ',desc:'Қазақстан React.js әзірлеушілері.',type:'IT',members:[{name:'Айдар С.',color:'#4a7c59',role:'Админ'},{name:'Михаил Т.',color:'#3a6b9c',role:'Мүше'}],msgs:[{from:'Айдар С.',color:'#4a7c59',text:'Сәлем! 👋',time:'10:00'},{from:'Михаил Т.',color:'#3a6b9c',text:'React 19 қандай?',time:'10:05'}]},
+  {id:'g2',emoji:'🎨',name:'Дизайн Алматы',desc:'UI/UX дизайнерлер тобы.',type:'Design',members:[{name:'Жансая Қ.',color:'#9c5a2a',role:'Админ'}],msgs:[{from:'Жансая Қ.',color:'#9c5a2a',text:'Figma AI тамаша!',time:'11:00'}]},
+  {id:'g3',emoji:'🚀',name:'Стартап Hub',desc:'Стартап идеялар.',type:'Business',members:[{name:'Павел Р.',color:'#4a5c7c',role:'Админ'}],msgs:[{from:'Павел Р.',color:'#4a5c7c',text:'Хакатон!',time:'09:30'}]},
+  {id:'g4',emoji:'🐍',name:'Python & Data',desc:'Python, ML, Data Science.',type:'IT',members:[{name:'Дамир Н.',color:'#1a7a4a',role:'Админ'}],msgs:[{from:'Дамир Н.',color:'#1a7a4a',text:'Kaggle!',time:'08:45'}]}
+];
+var chatContacts=[
+  {id:'c1',name:'Михаил Т.',color:'#4a7c59',online:true,unread:2,msgs:[{from:'other',text:'Сәлем! Лендинг туралы?',time:'10:30'},{from:'me',text:'Иә, хабарламаңызды алдым!',time:'10:32'}]},
+  {id:'c2',name:'Анна К.',color:'#3a6b9c',online:false,unread:0,msgs:[{from:'other',text:'EdTech жоба туралы?',time:'Кеше'}]},
+  {id:'c3',name:'IT Клубы',color:'#9c5a2a',online:true,unread:1,msgs:[{from:'other',text:'Митапқа тіркелдіңіз бе?',time:'09:15'}]}
+];
+var profRevs=[
+  {author:'Анна К.',rating:5,text:'Керемет! Барлығын мерзімінде орындады.',time:'3к бұрын'},
+  {author:'Михаил Т.',rating:5,text:'Тапсырманы тез түсінді. Ұсынамын!',time:'1апт бұрын'},
+  {author:'Дарья М.',rating:4,text:'Жақсы жұмыс.',time:'2апт бұрын'}
+];
+
+// ══ TEST BANK — topic-based questions ═════
+var testBank={
+  react:[
+    {q:'React-та компонент күйін сақтауға қандай hook қолданылады?',opts:['useState','useEffect','useRef','useMemo'],ans:0},
+    {q:'useEffect хукі қашан шақырылады?',opts:['Рендер алдында','Рендерден кейін','Тек бір рет','Ешқашан'],ans:1},
+    {q:'Virtual DOM не үшін қолданылады?',opts:['Файлдарды сақтау','Реал DOM-ды тиімді жаңарту','Серверге сұраныс жіберу','CSS қосу'],ans:1},
+    {q:'React-та key prop не үшін қажет?',opts:['Стильдеу үшін','Тізімдегі элементтерді бірегей анықтау','Анимация үшін','Деректер тасымалдау'],ans:1},
+    {q:'Props пен State айырмашылығы қандай?',opts:['Айырмашылығы жоқ','Props тышқанмен өзгереді','Props сыртқа берілед, State ішкі болады','State тек серверде'],ans:2},
+    {q:'React Router-да бет навигациясы үшін не қолданады?',opts:['<Link>','<a>','<button>','<div>'],ans:0},
+    {q:'useMemo не үшін қолданылады?',opts:['API шақыру','Есептеу нәтижесін кэштеу','Form жіберу','Стиль қосу'],ans:1},
+    {q:'Context API не мақсатқа қолданылады?',opts:['Файл жүктеу','Props drilling-ті болдырмау','Серверге қосылу','Анимация'],ans:1}
+  ],
+  python:[
+    {q:'Python-да тізімді жылдам сұрыптау?',opts:['list.sort()','list.order()','sort(list)','list.arrange()'],ans:0},
+    {q:'def кілт сөзі не үшін?',opts:['Айнымалы анықтау','Функция анықтау','Класс анықтау','Модуль импорт'],ans:1},
+    {q:'Python-да for цикл мысалы:',opts:['for i = 0; i<5; i++','for i in range(5):','foreach i in 5:','loop i to 5:'],ans:1},
+    {q:'pandas DataFrame жасау:',opts:['pd.create()','pd.DataFrame()','pd.Table()','pd.New()'],ans:1},
+    {q:'Python-да None не дегенді білдіреді?',opts:['0 саны','Бос жол','Мәні жоқ','False'],ans:2},
+    {q:'list comprehension мысалы:',opts:['[x*2 for x in range(5)]','(x*2 in range(5))','list(x*2, range(5))','x*2 for range(5)'],ans:0},
+    {q:'try/except не үшін?',opts:['Цикл','Қателерді ұстау','Функция шақыру','Класс мұрагерлік'],ans:1},
+    {q:'pip ne?',opts:['Python IDE','Python пакет менеджері','Python версиясы','Python compiler'],ans:1}
+  ],
+  design:[
+    {q:'UX дизайн дегеніміз не?',opts:['Тек визуал дизайн','Пайдаланушы тәжірибесін жобалау','Тек логотип жасау','Код жазу'],ans:1},
+    {q:'Figma-да компонент не үшін қолданылады?',opts:['Тек сурет салу','Қайта қолданылатын UI элементтер','Анимация жасау','Файл экспорт'],ans:1},
+    {q:'Wireframe дегеніміз не?',opts:['Дайын дизайн','Интерфейстің қаңқа схемасы','Логотип','Код шаблоны'],ans:1},
+    {q:'Контраст коэффициенті неге маңызды?',opts:['Файл өлшемі үшін','Оқылу мен доступность үшін','Анимация үшін','SEO үшін'],ans:1},
+    {q:'Auto Layout Figma-да не істейді?',opts:['Сурет салады','Элементтерді автоматты орналастырады','Файл жіберед','Шрифт ауыстырады'],ans:1},
+    {q:'Design System не?',opts:['Жалғыз дизайн файлы','Компонент, стиль, нұсқаулар жиынтығы','Тек түстер палитрасы','Тек логотип'],ans:1},
+    {q:'Mobile-first дизайн дегеніміз?',opts:['Тек мобайлға дизайн','Алдымен мобайлдан бастап дизайн жасау','Тек десктопқа','Мобайл приложение жасау'],ans:1},
+    {q:'Прототип не үшін жасалады?',opts:['Тікелей разработкаға','Идеяны тексеру және пайдаланушы тестілеу','Тек презентация','Файл сақтау'],ans:1}
+  ],
+  default:[
+    {q:'Жоба менеджментінде MVP дегеніміз не?',opts:['Most Valuable Player','Minimum Viable Product','Maximum Value Project','Mobile Video Platform'],ans:1},
+    {q:'Agile методологиясының негізгі принципі?',opts:['Баяу жоспарлау','Тез итерациялар мен икемділік','Тек жазбаша жоспар','Иерархиялық басқару'],ans:1},
+    {q:'GitHub не үшін қолданылады?',opts:['Сурет редактор','Код версиясын басқару','Музыка тыңдау','Тек backup'],ans:1},
+    {q:'API дегеніміз не?',opts:['Бағдарлама тілі','Қосымшалар арасындағы интерфейс','Деректер базасы','Операциялық жүйе'],ans:1},
+    {q:'Kanban тақтасы не үшін?',opts:['Жоба тапсырмаларын визуалды басқару','Тек есеп жазу','Код жазу','Файл сақтау'],ans:1},
+    {q:'Freelance жұмыста ТЗ дегеніміз?',opts:['Техникалық задание','Тіркелу заңы','Тесттеу жоспары','Тарифтік шкала'],ans:0},
+    {q:'Клиентпен коммуникацияда маңызды не?',opts:['Тек email','Дедлайн, бюджет, нәтижені нақты келісу','Тек телефон','Тек кездесу'],ans:1},
+    {q:'Portfolio не үшін жасалады?',opts:['Тек достарға','Жұмыс іздегенде дағдылар мен жұмыстарды көрсету','Тек резюмеге','Тек әлеуметтік желіге'],ans:1}
+  ]
+};
+
+function getTestQuestions(card){
+  var pool=testBank.default;
+  var tags=(card.tags||[]).map(function(t){return t.toLowerCase();});
+  if(tags.some(function(t){return t.indexOf('react')!==-1||t.indexOf('vue')!==-1||t.indexOf('css')!==-1||t.indexOf('figma')&&t.indexOf('front')!==-1;})) pool=testBank.react;
+  else if(tags.some(function(t){return t.indexOf('python')!==-1||t.indexOf('data')!==-1||t.indexOf('ml')!==-1||t.indexOf('pandas')!==-1;})) pool=testBank.python;
+  else if(tags.some(function(t){return t.indexOf('дизайн')!==-1||t.indexOf('design')!==-1||t.indexOf('figma')!==-1||t.indexOf('логотип')!==-1;})) pool=testBank.design;
+  // shuffle & take up to 10
+  var shuffled=pool.slice().sort(function(){return Math.random()-.5;});
+  return shuffled.slice(0,Math.min(10,shuffled.length));
+}
+
+// ══ INTERVIEW STATE ════════════════════════
+var iv={
+  cardId:null,card:null,
+  name:'',email:'',
+  chatHistory:[],chatQCount:0,chatMaxQ:6,chatDone:false,
+  testQuestions:[],testAnswers:{},testSubmitted:false,
+  interviewScore:0  // 0-100 from AI eval
+};
+
+function openInterviewFlow(id){
+  iv.cardId=id;
+  var all=cardsData.concat(myPosts);
+  for(var i=0;i<all.length;i++){if(all[i].id===id){iv.card=all[i];break;}}
+  if(!iv.card)return;
+  // reset
+  iv.chatHistory=[];iv.chatQCount=0;iv.chatDone=false;
+  iv.testQuestions=[];iv.testAnswers={};iv.testSubmitted=false;
+  iv.interviewScore=0;
+  // fill intro panel
+  document.getElementById('ivJobTitle').textContent=iv.card.title;
+  var coverEl=document.getElementById('ivJobCoverWrap');
+  var cv=cardCovers[id];
+  if(cv){
+    coverEl.innerHTML='<img src="'+cv.url+'" style="width:100%;height:120px;object-fit:cover;border-radius:12px;margin-bottom:20px" onerror="this.style.display=\'none\'">';
+  } else {
+    coverEl.innerHTML='<div style="font-size:48px;text-align:center;padding:16px 0;margin-bottom:12px">'+(typeEmoji[iv.card.type]||'📋')+'</div>';
+  }
+  // prefill name/email from currentUser
+  if(currentUser){
+    document.getElementById('ivApplyName').value=currentUser.first+' '+currentUser.last;
+    document.getElementById('ivApplyEmail').value=currentUser.email||'';
+  } else {
+    document.getElementById('ivApplyName').value='';
+    document.getElementById('ivApplyEmail').value='';
+  }
+  // go to step1
+  setIvStep(1);
+  document.getElementById('ivOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeInterview(){
+  document.getElementById('ivOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function setIvStep(n){
+  for(var i=1;i<=4;i++){
+    var panel=document.getElementById('ivPanel'+i);
+    panel.classList.toggle('active',i===n);
+    var step=document.getElementById('ivStep'+i);
+    step.classList.remove('active','done');
+    if(i<n) step.classList.add('done');
+    else if(i===n) step.classList.add('active');
+    if(i<4){
+      var line=document.getElementById('ivLine'+i);
+      if(line) line.classList.toggle('done',i<n);
+    }
+  }
+}
+
+function startInterview(){
+  var name=document.getElementById('ivApplyName').value.trim();
+  var email=document.getElementById('ivApplyEmail').value.trim();
+  if(!email){showToast('Email жазыңыз');return;}
+  if(email.indexOf('@')===-1){showToast('Дұрыс email');return;}
+  iv.name=name||'Үміткер';
+  iv.email=email;
+  setIvStep(2);
+  // start AI interview
+  document.getElementById('ivMsgs').innerHTML='';
+  document.getElementById('ivChatInput').value='';
+  document.getElementById('ivNextTestBtn').style.display='none';
+  document.getElementById('ivSendBtn').disabled=false;
+  document.getElementById('ivChatInput').disabled=false;
+  updateChatProgress();
+  // first AI greeting
+  var greeting='Сәлеметсіз бе, **'+iv.name+'**! 👋\n\nМен StudentHub AI рекрутерімін. «'+iv.card.title+'» лауазымына сұхбат жүргіземін.\n\nБастайық: **Өзіңіз туралы қысқаша айтып беріңізші — кім сіз, қандай дағдыларыңыз бар?**';
+  iv.chatHistory.push({role:'assistant',content:greeting});
+  addIvMsg('ai',greeting);
+  iv.chatQCount=1;
+  updateChatProgress();
+}
+
+function addIvMsg(role,text){
+  var msgs=document.getElementById('ivMsgs');
+  var d=document.createElement('div');
+  d.className='iv-msg '+(role==='ai'?'ai-msg':'user-msg');
+  var avClass=role==='ai'?'is-ai':'is-user';
+  var avContent=role==='ai'?'🤖':(iv.name?iv.name[0]:'?');
+  d.innerHTML='<div class="iv-msg-av '+avClass+'">'+avContent+'</div>'+
+    '<div class="iv-msg-bubble">'+text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')+'</div>';
+  msgs.appendChild(d);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function addIvTyping(){
+  var msgs=document.getElementById('ivMsgs');
+  var d=document.createElement('div');
+  d.className='iv-msg ai-msg';d.id='ivTypingBub';
+  d.innerHTML='<div class="iv-msg-av is-ai">🤖</div><div class="iv-typing-bub"><span></span><span></span><span></span></div>';
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+function removeIvTyping(){var e=document.getElementById('ivTypingBub');if(e)e.remove();}
+
+function updateChatProgress(){
+  var pct=Math.min(100,Math.round((iv.chatQCount/iv.chatMaxQ)*100));
+  document.getElementById('ivChatProgFill').style.width=pct+'%';
+  document.getElementById('ivChatProgLabel').textContent='Сұрақ '+iv.chatQCount+'/'+iv.chatMaxQ;
+  document.getElementById('ivChatSub').textContent=iv.chatDone?'Сұхбат аяқталды ✓':'Сұхбат жүріп жатыр...';
+}
+
+async function sendIvAnswer(){
+  var inp=document.getElementById('ivChatInput');
+  var text=inp.value.trim();if(!text)return;
+  inp.value='';inp.style.height='auto';
+  addIvMsg('user',text);
+  iv.chatHistory.push({role:'user',content:text});
+  document.getElementById('ivSendBtn').disabled=true;
+  document.getElementById('ivChatInput').disabled=true;
+  addIvTyping();
+  var isLast=iv.chatQCount>=iv.chatMaxQ;
+  var systemPrompt='Сен StudentHub платформасының AI рекрутерісің. Студенттер биржасы үшін үміткерлерді скрининг жасайсың.\n\nТапсырма: «'+iv.card.title+'»\nДағдылар: '+iv.card.tags.join(', ')+'\n\nСұхбат ережелері:\n1. Бір рет тек БІР сұрақ бер (қысқа, нақты)\n2. Жауапты қазақша бага бер (бір сөйлем)\n3. '+(isLast?'Бұл СОҢҒЫ сұрақ. Жауапты баға беп, сұхбатты аяқта деп жаз: "Рахмет! Сұхбат аяқталды. Енді тестке өтуіңізді сұраймын." деп жаз. Тест туралы басқа ештеңе айтпа.':'Сұрақ санағы: '+iv.chatQCount+'/'+iv.chatMaxQ+'. Жаңа БІРЕГЕЙ сұрақ қой.')+'\n4. Тапсырмаға байланысты техникалық немесе тәжірибелік сұрақтар қой\n5. Қазақ тілінде жауап бер';
+  try{
+    var msgs=iv.chatHistory.map(function(m){return{role:m.role,content:m.content};});
+    var r=await fetch('https://falling-limit-056f.serikovbahyt7.workers.dev',{method:'POST',headers:{'Content-Type':'application/json',},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:systemPrompt,messages:msgs})});
+    var d=await r.json();
+    var rep=(d&&d.content&&d.content[0]&&d.content[0].text)||'Жауабыңызды алдым. Жалғастырайық.';
+    removeIvTyping();
+    iv.chatHistory.push({role:'assistant',content:rep});
+    addIvMsg('ai',rep);
+    iv.chatQCount++;
+    if(isLast||rep.indexOf('аяқталды')!==-1||rep.indexOf('аяқталды')!==-1){
+      iv.chatDone=true;
+      document.getElementById('ivSendBtn').disabled=true;
+      document.getElementById('ivChatInput').disabled=true;
+      document.getElementById('ivNextTestBtn').style.display='block';
+    } else {
+      document.getElementById('ivSendBtn').disabled=false;
+      document.getElementById('ivChatInput').disabled=false;
+      document.getElementById('ivChatInput').focus();
+    }
+    updateChatProgress();
+  } catch(e){
+    removeIvTyping();
+    addIvMsg('ai','Байланыс қатесі. Жалғастырайық.');
+    document.getElementById('ivSendBtn').disabled=false;
+    document.getElementById('ivChatInput').disabled=false;
+  }
+}
+
+function ivChatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendIvAnswer();}}
+
+function goToTest(){
+  setIvStep(3);
+  iv.testQuestions=getTestQuestions(iv.card);
+  iv.testAnswers={};
+  renderTest();
+}
+
+function renderTest(){
+  var qs=iv.testQuestions;
+  document.getElementById('ivTestTitle').textContent='📝 «'+iv.card.title+'» — Тест';
+  document.getElementById('ivTestDesc').textContent='Жауапты таңдаңыз. Нәтиже бірден беріледі.';
+  document.getElementById('ivTestProgLabel').textContent='0 / '+qs.length+' жауапталды';
+  document.getElementById('ivTestProgFill').style.width='0%';
+  document.getElementById('ivSubmitTestBtn').style.display='none';
+  var html='';
+  qs.forEach(function(q,i){
+    html+='<div class="iv-q-block" id="ivQ'+i+'">';
+    html+='<div class="iv-q-idx">Сұрақ '+(i+1)+' / '+qs.length+'</div>';
+    html+='<div class="iv-q-text">'+q.q+'</div>';
+    html+='<div class="iv-options">';
+    q.opts.forEach(function(opt,j){
+      html+='<button class="iv-opt" id="ivOpt'+i+'_'+j+'" onclick="selectOpt('+i+','+j+')">'+opt+'</button>';
+    });
+    html+='</div></div>';
+  });
+  document.getElementById('ivTestQuestions').innerHTML=html;
+}
+
+function selectOpt(qi,oi){
+  if(iv.testAnswers[qi]!==undefined)return;// already answered
+  iv.testAnswers[qi]=oi;
+  var q=iv.testQuestions[qi];
+  var isCorrect=oi===q.ans;
+  // highlight all options
+  for(var j=0;j<q.opts.length;j++){
+    var btn=document.getElementById('ivOpt'+qi+'_'+j);
+    if(!btn)continue;
+    btn.disabled=true;
+    if(j===q.ans) btn.classList.add('correct');
+    else if(j===oi&&!isCorrect) btn.classList.add('wrong');
+  }
+  document.getElementById('ivQ'+qi).classList.add('answered');
+  var answered=Object.keys(iv.testAnswers).length;
+  var total=iv.testQuestions.length;
+  document.getElementById('ivTestProgLabel').textContent=answered+' / '+total+' жауапталды';
+  document.getElementById('ivTestProgFill').style.width=Math.round(answered/total*100)+'%';
+  if(answered===total){
+    document.getElementById('ivSubmitTestBtn').style.display='block';
+    setTimeout(function(){
+      var el=document.getElementById('ivSubmitTestBtn');
+      if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+    },300);
+  }
+}
+
+function submitTest(){
+  iv.testSubmitted=true;
+  var correct=0;
+  iv.testQuestions.forEach(function(q,i){
+    if(iv.testAnswers[i]===q.ans) correct++;
+  });
+  var testScore=Math.round(correct/iv.testQuestions.length*100);
+  iv.interviewScore=testScore; // use test score as main metric
+  showResult(correct,testScore);
+}
+
+function showResult(correct,testScore){
+  setIvStep(4);
+  var total=iv.testQuestions.length;
+  var pct=testScore;
+  var emoji,title,sub;
+  if(pct>=80){emoji='🎉';title='Керемет нәтиже!';sub='Сіз өте жақсы дайындалғансыз. Өтінімді жіберуге мүмкіндігіңіз бар!';}
+  else if(pct>=60){emoji='👍';title='Жақсы нәтиже!';sub='Дағдыларыңыз жеткілікті. Өтінімді жіберсеңіз болады.';}
+  else if(pct>=40){emoji='📚';title='Орташа нәтиже';sub='Тапсырмаға сәйкес деңгейіңізді нығайту ұсынылады. Сонда да өтінім жіберуге болады.';}
+  else{emoji='💪';title='Дайындалу керек';sub='Тақырыпты қосымша оқып, жаттықтырыңыз. Бірақ өтінімді жіберуге болады.';}
+  document.getElementById('ivResultEmoji').textContent=emoji;
+  document.getElementById('ivResultTitle').textContent=title;
+  document.getElementById('ivResultSub').textContent=sub;
+  document.getElementById('ivScoreNum').innerHTML=pct+'%<span id="ivScoreLabel">Тест нәтижесі</span>';
+  // animate ring
+  var circumference=326.7;
+  var offset=circumference-(circumference*pct/100);
+  setTimeout(function(){
+    var ring=document.getElementById('ivRingFg');
+    if(ring){
+      ring.style.strokeDashoffset=offset;
+      if(pct>=80) ring.style.stroke='#2ecc71';
+      else if(pct>=60) ring.style.stroke='#f39c12';
+      else ring.style.stroke='#e74c3c';
+    }
+  },100);
+  // breakdown
+  document.getElementById('ivBreakdown').innerHTML=
+    '<div class="iv-breakdown-row"><span class="iv-bd-label">📝 Тест нәтижесі</span><span class="iv-bd-val '+(testScore>=60?'good':'bad')+'">'+correct+' / '+total+' ('+testScore+'%)</span></div>'+
+    '<div class="iv-breakdown-row"><span class="iv-bd-label">💬 AI Сұхбат</span><span class="iv-bd-val good">'+iv.chatQCount+' сұрақ аяқталды</span></div>'+
+    '<div class="iv-breakdown-row"><span class="iv-bd-label">📧 Email</span><span class="iv-bd-val">'+iv.email+'</span></div>';
+}
+
+async function sendFinalApply(){
+  var score=iv.interviewScore+'% ('+iv.card.title+')';
+  await updateClientScore(iv.email, score);
+  // also try to add if not exists
+  var existing=await sbFetch('users','GET',null,'?email=eq.'+encodeURIComponent(iv.email));
+  if(!existing||existing.length===0){
+    await addClient({first:iv.name.split(' ')[0]||iv.name,last:iv.name.split(' ')[1]||'',email:iv.email,uni:'—',major:'—',skills:iv.card.tags.join(', '),ivScore:score});
+  }
+  closeInterview();
+  showToast('✓ Өтінім жіберілді! Нәтиже: '+iv.interviewScore+'%');
+}
+
+// ══ UTILS ═════════════════════════════════
+function starsHTML(r,sz){sz=sz||11;var h='<span class="stars">';for(var i=1;i<=5;i++){h+='<span class="star'+(r>=i?' on':r>=i-.5?' half':'')+'" style="font-size:'+sz+'px">★</span>';}return h+'</span>';}
+function renderStarsEl(r,elId,sz){var el=document.getElementById(elId);if(!el)return;el.innerHTML='';for(var i=1;i<=5;i++){var s=document.createElement('span');s.className='star'+(r>=i?' on':r>=i-.5?' half':'');s.style.fontSize=(sz||14)+'px';s.textContent='★';el.appendChild(s);}}
+function pickStar(id,n){starState[id]=n;var picks=document.querySelectorAll('#'+id+'Spicker .spick');for(var i=0;i<picks.length;i++)picks[i].classList.toggle('lit',i<n);}
+function isPaid(price){if(!price)return false;return /\d/.test(price)&&price.indexOf('₸')!==-1;}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,80)+'px';}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
+function nowTime(){return new Date().toLocaleTimeString('kk',{hour:'2-digit',minute:'2-digit'});}
+
+// ══ NAVIGATION ════════════════════════════
+function go(id,btn){
+  prevPage=document.querySelector('.page.active')?document.querySelector('.page.active').id:'home';
+  var pages=document.querySelectorAll('.page');
+  for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');
+  var el=document.getElementById(id);if(el)el.classList.add('active');
+  if(btn){var nbs=document.querySelectorAll('.nb');for(var i=0;i<nbs.length;i++)nbs[i].classList.remove('active');btn.classList.add('active');}
+  if(id==='feed')renderCards();
+  if(id==='profile')renderProfile();
+  if(id==='db')renderDb();
+  if(id==='myposts')renderMyPosts();
+  if(id==='chats')renderChatList();
+  if(id==='groups')renderGroups();
+  window.scrollTo(0,0);
+}
+function goBack(){go(prevPage==='detail'?'feed':prevPage);}
+
+// ══ CARD COVER HTML ════════════════════════
+function cardCoverHTML(c,h){
+  h=h||140;
+  if(c.imgData)return '<img class="card-cover" src="'+c.imgData+'" style="height:'+h+'px" alt="">';
+  var cv=cardCovers[c.id];
+  if(cv)return '<img class="card-cover" src="'+cv.url+'" style="height:'+h+'px" alt="" loading="lazy" onerror="this.outerHTML=\'<div class=card-cover-ph style=height:'+h+'px>'+typeEmoji[c.type]+'</div>\'">';
+  return '<div class="card-cover-ph" style="height:'+h+'px">'+(typeEmoji[c.type]||'📋')+'</div>';
+}
+
+// ══ RENDER CARDS ══════════════════════════
+var cFilter='all',cSearch='';
+function renderCards(){
+  var grid=document.getElementById('cardsGrid');
+  var all=cardsData.concat(myPosts).filter(function(c){
+    return (cFilter==='all'||c.type===cFilter)&&(!cSearch||(c.title+c.desc).toLowerCase().indexOf(cSearch)!==-1);
+  });
+  var tl=function(t){return t==='freelance'?'Фриланс':t==='collab'?'Бірлесу':'Іс-шара';};
+  grid.innerHTML=all.map(function(c){
+    var paidMark=isPaid(c.price)?'<span class="paid-badge">АҚЫЛЫ</span>':'';
+    return '<div class="card" onclick="openDetail('+c.id+')">'+
+      cardCoverHTML(c,140)+
+      '<div class="card-body">'+
+        '<div class="card-top-row"><div class="card-title">'+c.title+'</div><span class="card-type type-'+c.type+'">'+tl(c.type)+'</span></div>'+
+        '<div class="card-desc">'+c.desc+'</div>'+
+        '<div class="card-tags">'+c.tags.map(function(t){return'<span class="tag">'+t+'</span>';}).join('')+'</div>'+
+        '<div class="card-footer">'+
+          '<div class="card-author"><div class="avatar" style="background:'+(c.color||'#555')+'">'+c.name[0]+'</div>'+
+          '<div><div class="card-name">'+c.name+'</div><div class="crrow">'+starsHTML(c.rating||0)+'<span class="rlabel">'+(c.rating||'—')+'</span></div></div></div>'+
+          '<div><span class="card-price">'+c.price+paidMark+'</span></div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+function filterCards(t,btn){cFilter=t;var fbs=document.querySelectorAll('.filter-btn');for(var i=0;i<fbs.length;i++)fbs[i].classList.remove('active');if(btn)btn.classList.add('active');renderCards();}
+function searchCards(v){cSearch=v.toLowerCase();renderCards();}
+
+// ══ DETAIL ════════════════════════════════
+function openDetail(id){
+  currentDetailId=id;
+  var all=cardsData.concat(myPosts);var c=null;
+  for(var i=0;i<all.length;i++){if(all[i].id===id){c=all[i];break;}}
+  if(!c)return;
+  if(!detailRevs[id])detailRevs[id]=[];
+  var tl=function(t){return t==='freelance'?'Фриланс':t==='collab'?'Бірлесу':'Іс-шара';};
+  var contacts=[];
+  if(c.wa)contacts.push('<a class="cbtn" href="https://wa.me/'+c.wa.replace(/\D/g,'')+'" target="_blank"><div class="cicon" style="background:var(--gl)">💬</div>WhatsApp</a>');
+  if(c.tg)contacts.push('<a class="cbtn" href="https://t.me/'+c.tg.replace('@','')+'" target="_blank"><div class="cicon" style="background:var(--bll)">✈️</div>Telegram</a>');
+  if(c.ig)contacts.push('<a class="cbtn" href="https://instagram.com/'+c.ig.replace('@','')+'" target="_blank"><div class="cicon" style="background:var(--ol)">📸</div>Instagram</a>');
+  var revHTML=detailRevs[id].length?detailRevs[id].map(function(r){return'<div class="rev-card"><div class="rev-header"><span class="rev-author">'+r.author+'</span><div style="display:flex;align-items:center;gap:5px">'+starsHTML(r.rating,11)+'<span style="font-size:10px;color:var(--mu)">'+r.time+'</span></div></div><div class="rev-text">'+r.text+'</div></div>';}).join(''):'<p style="color:var(--mu);font-size:13px">Пікір жоқ.</p>';
+  // apply button — ALL non-paid jobs go through interview; paid jobs go through payment
+  var applyBtn;
+  if(isPaid(c.price)){
+    applyBtn='<button class="apply-btn" onclick="openPayModal(\''+c.price.replace(/'/g,'')+'\')">💳 Төлеп өтінім жіберу</button>';
+  } else {
+    var btnLabel=c.type==='event'?'📅 Іс-шараға тіркелу — AI Скрининг':'🤖 Өтінім + AI Сұхбат & Тест';
+    applyBtn='<button class="apply-btn free" onclick="openInterviewFlow('+c.id+')">'+btnLabel+'</button>';
+  }
+  var coverHTML='';
+  if(c.imgData){coverHTML='<img class="detail-cover" src="'+c.imgData+'" alt="">';}
+  else{var cv=cardCovers[c.id];if(cv){coverHTML='<img class="detail-cover" src="'+cv.url+'" alt="" onerror="this.outerHTML=\'<div class=detail-cover-ph>'+typeEmoji[c.type]+'</div>\'">';}else{coverHTML='<div class="detail-cover-ph">'+(typeEmoji[c.type]||'📋')+'</div>';}}
+  document.getElementById('detailContent').innerHTML=
+    '<div class="detail-hero">'+coverHTML+'<div class="detail-body">'+
+      '<div class="detail-top"><div><span class="card-type type-'+c.type+'" style="margin-bottom:8px;display:inline-block">'+tl(c.type)+'</span><div class="detail-title">'+c.title+'</div></div>'+
+      '<div class="price-box"><span class="price-big">'+c.price+'</span></div></div>'+
+      '<div class="detail-desc">'+(c.fullDesc||c.desc)+'</div>'+
+      '<div class="detail-tags">'+c.tags.map(function(t){return'<span class="tag">'+t+'</span>';}).join('')+'</div>'+
+      '<div class="dsec">Байланыс</div><div class="contacts-grid">'+contacts.join('')+'</div>'+
+      '<div class="dsec">Автор</div>'+
+      '<div class="author-card" onclick="go(\'profile\')"><div class="av-lg" style="background:'+(c.color||'#555')+'">'+c.name[0]+'</div>'+
+      '<div><div class="author-name">'+c.name+'</div><div class="author-uni">'+(c.uni||'')+'</div><div style="display:flex;align-items:center;gap:5px;margin-top:3px">'+starsHTML(c.rating||0,12)+'<span class="rlabel">'+(c.rating||'—')+'</span></div></div>'+
+      '<div style="margin-left:auto;color:var(--mu);font-size:18px">→</div></div>'+
+      applyBtn+
+    '</div></div>'+
+    '<div class="rev-box" style="margin-top:14px">'+
+      '<div style="font-family:Unbounded,sans-serif;font-size:13px;font-weight:600;margin-bottom:10px">Пікір қалдыру</div>'+
+      '<div class="spicker" id="detSpicker"><span class="spick" onclick="pickStar(\'det\',1)">★</span><span class="spick" onclick="pickStar(\'det\',2)">★</span><span class="spick" onclick="pickStar(\'det\',3)">★</span><span class="spick" onclick="pickStar(\'det\',4)">★</span><span class="spick" onclick="pickStar(\'det\',5)">★</span></div>'+
+      '<div class="form-group"><input class="form-input" id="detRevAuthor" type="text" placeholder="Атыңыз" style="margin-bottom:8px"></div>'+
+      '<div class="form-group"><textarea class="form-textarea" id="detRevText" placeholder="Пікіріңіз..." style="min-height:68px"></textarea></div>'+
+      '<button class="btn-submit" style="margin-top:0" onclick="submitDetRev()">Жариялау</button>'+
+      '<div style="font-family:Unbounded,sans-serif;font-size:13px;font-weight:600;margin:14px 0 8px">Пікірлер</div>'+
+      '<div id="detRevList">'+revHTML+'</div>'+
+    '</div>';
+  prevPage='feed';go('detail');
+}
+
+function submitDetRev(){
+  var n=starState['det']||0;if(!n){showToast('Баға таңдаңыз ⭐');return;}
+  var author=document.getElementById('detRevAuthor').value.trim()||'Аноним';
+  var text=document.getElementById('detRevText').value.trim();if(!text){showToast('Пікір жазыңыз');return;}
+  if(!detailRevs[currentDetailId])detailRevs[currentDetailId]=[];
+  detailRevs[currentDetailId].unshift({author:author,rating:n,text:text,time:'жаңа ғана'});
+  document.getElementById('detRevList').innerHTML=detailRevs[currentDetailId].map(function(r){return'<div class="rev-card"><div class="rev-header"><span class="rev-author">'+r.author+'</span><div style="display:flex;align-items:center;gap:5px">'+starsHTML(r.rating,11)+'<span style="font-size:10px;color:var(--mu)">'+r.time+'</span></div></div><div class="rev-text">'+r.text+'</div></div>';}).join('');
+  document.getElementById('detRevAuthor').value='';document.getElementById('detRevText').value='';
+  starState['det']=0;var picks=document.querySelectorAll('#detSpicker .spick');for(var i=0;i<picks.length;i++)picks[i].classList.remove('lit');
+  showToast('✓ Пікір жарияланды!');
+}
+
+// ══ IMAGE UPLOAD ══════════════════════════
+function previewPostImg(input){var file=input.files[0];if(!file)return;var r=new FileReader();r.onload=function(e){postImgData=e.target.result;document.getElementById('postImgPh').style.display='none';var w=document.getElementById('postImgPreviewWrap');var img=document.getElementById('postImgPreview');img.src=postImgData;w.style.display='block';};r.readAsDataURL(file);}
+function removePostImg(e){e.stopPropagation();postImgData=null;document.getElementById('postImgPh').style.display='block';document.getElementById('postImgPreviewWrap').style.display='none';document.getElementById('postImgInput').value='';}
+
+// ══ POST ══════════════════════════════════
+function selType(el){var opts=document.querySelectorAll('.type-opt');for(var i=0;i<opts.length;i++)opts[i].classList.remove('sel');el.classList.add('sel');}
+function submitPost(){
+  if(!currentUser){showToast('Алдымен тіркеліңіз');go('auth');return;}
+  var title=document.getElementById('ptitle').value.trim();if(!title){showToast('Тақырып жазыңыз');return;}
+  var selEl=document.querySelector('.type-opt.sel');
+  var typeText=selEl?selEl.textContent:'Фриланс';
+  var type=typeText.indexOf('Фриланс')!==-1?'freelance':typeText.indexOf('Бірлесу')!==-1?'collab':'event';
+  var tagsRaw=document.getElementById('ptags').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+  myPosts.push({id:Date.now(),type:type,title:title,desc:document.getElementById('pdesc').value.trim()||title,tags:tagsRaw.length?tagsRaw:['Жалпы'],price:document.getElementById('pprice').value.trim()||'Келісім',name:currentUser.first+' '+currentUser.last[0]+'.',uni:currentUser.uni||'',time:'жаңа ғана',color:'#4a7c59',rating:0,reviews:0,wa:document.getElementById('pwa').value.trim(),tg:document.getElementById('ptg').value.trim(),fullDesc:document.getElementById('pdesc').value.trim(),imgData:postImgData});
+  postImgData=null;
+  ['ptitle','pdesc','ptags','pprice','pwa','ptg'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('postImgPh').style.display='block';document.getElementById('postImgPreviewWrap').style.display='none';
+  showToast('✓ Жарнама жарияланды!');go('feed');
+}
+
+// ══ MY POSTS ══════════════════════════════
+function renderMyPosts(){
+  var el=document.getElementById('mypostsGrid');
+  if(!myPosts.length){el.innerHTML='<p style="color:var(--mu);font-size:13px">Жарнамаңыз жоқ. <a onclick="go(\'post\')" style="color:var(--t);cursor:pointer;text-decoration:underline">Жарнама орналастыру →</a></p>';return;}
+  el.innerHTML=myPosts.map(function(p){
+    var thumb=p.imgData?'<img class="mypost-img-wrap" src="'+p.imgData+'" style="width:56px;height:56px;object-fit:cover;border-radius:8px">':'<div class="mypost-img-wrap">'+(typeEmoji[p.type]||'📋')+'</div>';
+    return'<div class="mypost-card">'+thumb+'<div class="mypost-info"><div class="mypost-title">'+p.title+'</div><div class="mypost-meta">'+p.price+' · '+p.time+'</div></div>'+
+    '<div class="mypost-actions"><button class="mypost-btn" onclick="openDetail('+p.id+')">👁 Қарау</button><button class="mypost-btn del" onclick="deleteMyPost('+p.id+')">🗑 Жою</button></div></div>';
+  }).join('');
+}
+function deleteMyPost(id){myPosts=myPosts.filter(function(p){return p.id!==id;});renderMyPosts();showToast('Жарнама жойылды');}
+
+// ══ PROFILE ═══════════════════════════════
+function renderProfile(){
+  var avg=profRevs.length?profRevs.reduce(function(s,r){return s+r.rating;},0)/profRevs.length:0;
+  document.getElementById('profileScore').textContent=avg.toFixed(1);
+  document.getElementById('profileRevCnt').textContent=profRevs.length+' пікір';
+  renderStarsEl(avg,'profileStars',14);
+  document.getElementById('profRevList').innerHTML=profRevs.map(function(r){return'<div class="rev-card"><div class="rev-header"><span class="rev-author">'+r.author+'</span><div style="display:flex;align-items:center;gap:5px">'+starsHTML(r.rating,11)+'<span style="font-size:10px;color:var(--mu)">'+r.time+'</span></div></div><div class="rev-text">'+r.text+'</div></div>';}).join('');
+}
+function submitProfRev(){
+  var n=starState['prof']||0;if(!n){showToast('Баға таңдаңыз ⭐');return;}
+  var text=document.getElementById('profRevText').value.trim();if(!text){showToast('Пікір жазыңыз');return;}
+  profRevs.unshift({author:currentUser?currentUser.first+' '+currentUser.last[0]+'.':'Сіз',rating:n,text:text,time:'жаңа ғана'});
+  starState['prof']=0;var picks=document.querySelectorAll('#profSpicker .spick');for(var i=0;i<picks.length;i++)picks[i].classList.remove('lit');
+  document.getElementById('profRevText').value='';renderProfile();showToast('✓ Пікір жарияланды!');
+}
+
+// ══ AUTH ══════════════════════════════════
+function switchTab(tab,btn){document.getElementById('loginForm').style.display=tab==='login'?'block':'none';document.getElementById('registerForm').style.display=tab==='register'?'block':'none';var tabs=document.querySelectorAll('.atab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');btn.classList.add('active');}
+function socialLogin(p){currentUser={id:'u'+Date.now(),first:'Айдар',last:'Сейткали',email:'user@'+p.toLowerCase()+'.com',uni:'ҚБТУ',major:'Информатика, 2 курс',skills:'React, Python',date:new Date().toISOString().split('T')[0]};onLogin();}
+function doLogin(){var email=document.getElementById('lemail').value.trim();var pass=document.getElementById('lpass').value;if(!email||!pass){showToast('Барлық өрістерді толтырыңыз');return;}var found=null;var clients=getDb('clients');for(var i=0;i<clients.length;i++){if(clients[i].email===email){found=clients[i];break;}}if(!found){showToast('Аккаунт табылмады');return;}currentUser=found;onLogin();}
+function doRegister(){var first=document.getElementById('rfirst').value.trim();var last=document.getElementById('rlast').value.trim();var email=document.getElementById('remail').value.trim();var pass=document.getElementById('rpass').value;if(!first||!last||!email||!pass){showToast('Міндетті өрістерді толтырыңыз');return;}var clients=getDb('clients');for(var i=0;i<clients.length;i++){if(clients[i].email===email){showToast('Бұл email тіркелген');return;}}var u={id:'u'+Date.now(),first:first,last:last,email:email,uni:document.getElementById('runi').value.trim(),major:document.getElementById('rmajor').value.trim(),skills:document.getElementById('rskills').value.trim(),date:new Date().toISOString().split('T')[0],ivScore:''};addDb('clients',u);addClient(u);currentUser=u;onLogin();}
+function onLogin(){
+  document.getElementById('navRight').innerHTML='<div class="uchip" onclick="go(\'profile\')"><div class="uav">'+currentUser.first[0]+currentUser.last[0]+'</div><span class="uname">'+currentUser.first+'</span></div><button class="btn-o" onclick="doLogout()">Шығу</button>';
+  ['mypostsNav','chatsNav','dbNav'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='block';});
+  document.getElementById('profileAv').textContent=currentUser.first[0]+currentUser.last[0];
+  document.getElementById('profileName').textContent=currentUser.first+' '+currentUser.last;
+  document.getElementById('profileInfo').textContent=(currentUser.uni||'')+' · '+(currentUser.major||'');
+  var sk=document.getElementById('profileSkills');if(sk&&currentUser.skills)sk.innerHTML=currentUser.skills.split(',').map(function(s){return'<span class="tag">'+s.trim()+'</span>';}).join('');
+  showToast('✓ Қош келдіңіз, '+currentUser.first+'!');go('home');
+}
+function doLogout(){currentUser=null;document.getElementById('navRight').innerHTML='<button class="btn-o" onclick="go(\'auth\')">Кіру</button><button class="btn-s" onclick="go(\'auth\')">Тіркелу</button>';['mypostsNav','chatsNav','dbNav'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});showToast('Сәтті шықтыңыз');go('home');}
+
+
+// ══ DB ════════════════════════════════════
+var dbS='';
+async function renderDb(){
+  document.getElementById('dbBody').innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--mu);padding:26px">Жүктелуде...</td></tr>';
+  var clients=await getClients();
+  if(dbS) clients=clients.filter(function(c){return((c.first+' '+c.last+' '+c.email).toLowerCase().indexOf(dbS)!==-1);});
+  document.getElementById('dbBody').innerHTML=clients.length?clients.map(function(c,i){
+    var scoreVal=c.iv_score?c.iv_score:'—';
+    var scoreColor=c.iv_score&&parseInt(c.iv_score)>=60?'color:#1a7a4a;font-weight:700':'color:#c0392b';
+    return'<tr><td style="color:var(--mu)">'+(i+1)+'</td><td><strong>'+c.first+' '+c.last+'</strong></td><td style="color:var(--mu)">'+c.email+'</td><td>'+(c.uni||'—')+'</td><td>'+(c.skills?c.skills.split(',').slice(0,2).map(function(s){return'<span class="tag">'+s.trim()+'</span>';}).join(''):'—')+'</td><td><span style="'+scoreColor+'">'+scoreVal+'</span></td><td style="color:var(--mu)">'+(c.date||'—')+'</td><td><button class="dbdel" onclick="rmClient(\''+c.id+'\')">🗑</button></td></tr>';
+  }).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--mu);padding:26px">Клиент табылмады</td></tr>';
+}
+function filterDb(v){dbS=v.toLowerCase();renderDb();}
+async function rmClient(id){await deleteClient(id);renderDb();showToast('Клиент жойылды');}
+
+// ══ CHATS ═════════════════════════════════
+function renderChatList(){
+  document.getElementById('chatItems').innerHTML=chatContacts.map(function(c){
+    return'<div class="chat-item'+(activeChatId===c.id?' sel':'')+'" onclick="openChat(\''+c.id+'\')">' +
+      '<div class="chat-item-av" style="background:'+c.color+'">'+c.name[0]+'</div>'+
+      '<div style="flex:1;min-width:0"><div class="chat-item-name">'+c.name+(c.online?' <span style="color:var(--gr);font-size:10px">●</span>':'')+'</div>'+
+      '<div class="chat-item-preview">'+(c.msgs.length?c.msgs[c.msgs.length-1].text:'—')+'</div></div>'+
+      (c.unread?'<div class="chat-unread">'+c.unread+'</div>':'')+
+    '</div>';
+  }).join('');
+}
+function openChat(cid){
+  activeChatId=cid;var c=null;
+  for(var i=0;i<chatContacts.length;i++){if(chatContacts[i].id===cid){c=chatContacts[i];break;}}
+  if(!c)return;c.unread=0;renderChatList();
+  var area=document.getElementById('chatWindowArea');
+  area.innerHTML='<div class="ai-hdr" style="border-radius:0;flex-shrink:0"><div class="chat-item-av" style="background:'+c.color+';width:34px;height:34px">'+c.name[0]+'</div>'+
+    '<div><div style="font-size:13px;font-weight:600">'+c.name+'</div><div class="ai-hdr-status">'+(c.online?'Онлайн':'Офлайн')+'</div></div></div>'+
+    '<div class="cwmsg-area" id="personalMsgs">'+c.msgs.map(function(m){return'<div class="cmsg '+(m.from==='me'?'me':'other')+'"><div class="cmsg-bub">'+m.text+'</div><div class="cmsg-time">'+m.time+'</div></div>';}).join('')+'</div>'+
+    '<div class="cw-irow"><textarea class="cw-input" id="personalInput" placeholder="Хабарлама жаз..." rows="1" onkeydown="personalKey(event,\''+cid+'\')" oninput="autoResize(this)"></textarea>'+
+    '<button class="cw-send" onclick="sendPersonal(\''+cid+'\')"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.269 20.876L5.999 12zm0 0h7.5"/></svg></button></div>';
+  var msgs=document.getElementById('personalMsgs');if(msgs)msgs.scrollTop=msgs.scrollHeight;
+}
+function sendPersonal(cid){
+  var inp=document.getElementById('personalInput');var text=inp.value.trim();if(!text)return;
+  inp.value='';inp.style.height='auto';
+  var c=null;for(var i=0;i<chatContacts.length;i++){if(chatContacts[i].id===cid){c=chatContacts[i];break;}}
+  if(!c)return;var now=nowTime();c.msgs.push({from:'me',text:text,time:now});
+  var msgs=document.getElementById('personalMsgs');
+  var el=document.createElement('div');el.className='cmsg me';el.innerHTML='<div class="cmsg-bub">'+text+'</div><div class="cmsg-time">'+now+'</div>';
+  msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;
+  var replies=['Жақсы!','Мерзімі?','Бюджет туралы?','Рахмет!'];
+  setTimeout(function(){var rep=replies[Math.floor(Math.random()*replies.length)];var re=document.createElement('div');re.className='cmsg other';re.innerHTML='<div class="cmsg-bub">'+rep+'</div><div class="cmsg-time">'+now+'</div>';msgs.appendChild(re);msgs.scrollTop=msgs.scrollHeight;},1200);
+}
+function personalKey(e,cid){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendPersonal(cid);}}
+
+// ══ GROUPS ════════════════════════════════
+var typeColors={IT:'var(--bll)',Design:'var(--ol)',Business:'var(--gl)',Science:'#f0e8f5',Art:'var(--ol)',Other:'var(--tag)'};
+var typeLabels={IT:'💻 IT',Design:'🎨 Дизайн',Business:'📈 Бизнес',Science:'🔬 Ғылым',Art:'🎭 Өнер',Other:'🌐 Басқа'};
+function renderGroups(){
+  document.getElementById('groupsGrid').innerHTML=groupsData.map(function(g){
+    var coverUrl=g.imgData?g.imgData:(groupCovers[g.id]||null);
+    var coverImg=coverUrl?'<img class="group-cover" src="'+coverUrl+'" alt="'+g.name+'" onerror="this.outerHTML=\'<div class=group-cover-ph>'+g.emoji+'</div>\'">'
+      :'<div class="group-cover-ph">'+g.emoji+'</div>';
+    return'<div class="group-card" onclick="openGroup(\''+g.id+'\')">'+coverImg+
+      '<div class="group-body"><div class="group-name">'+g.emoji+' '+g.name+'</div><div class="group-desc">'+g.desc+'</div>'+
+      '<div class="group-meta"><div class="group-members">👤 '+g.members.length+' мүше</div>'+
+      '<span class="group-type-badge" style="background:'+(typeColors[g.type]||'var(--tag)')+'">'+( typeLabels[g.type]||g.type)+'</span></div></div></div>';
+  }).join('');
+}
+function openGroup(gid){
+  currentGroupId=gid;var g=null;for(var i=0;i<groupsData.length;i++){if(groupsData[i].id===gid){g=groupsData[i];break;}}if(!g)return;
+  document.getElementById('groupRoomHdr').innerHTML='<div class="group-hdr-emoji">'+g.emoji+'</div><div><div class="group-hdr-name">'+g.name+'</div><div class="group-hdr-count">'+g.members.length+' мүше</div></div>';
+  var msgs=document.getElementById('groupMsgs');
+  msgs.innerHTML=g.msgs.map(function(m){return'<div class="cmsg other"><div style="font-size:11px;color:var(--mu);margin-bottom:2px">'+m.from+'</div><div class="cmsg-bub" style="background:var(--tag)">'+m.text+'</div><div class="cmsg-time">'+m.time+'</div></div>';}).join('');
+  msgs.scrollTop=msgs.scrollHeight;
+  document.getElementById('groupMembersList').innerHTML=g.members.map(function(m){return'<div class="gm-item"><div class="gm-av" style="background:'+m.color+'">'+m.name[0]+'</div><div><div class="gm-name">'+m.name+'</div><div class="gm-role">'+m.role+'</div></div></div>';}).join('');
+  prevPage='groups';go('groupRoom');
+}
+function sendGroupMsg(){
+  var inp=document.getElementById('groupInput');var text=inp.value.trim();if(!text)return;
+  inp.value='';inp.style.height='auto';
+  var g=null;for(var i=0;i<groupsData.length;i++){if(groupsData[i].id===currentGroupId){g=groupsData[i];break;}}if(!g)return;
+  var now=nowTime();var name=currentUser?currentUser.first+' '+currentUser.last[0]+'.':'Сіз';
+  g.msgs.push({from:name,text:text,time:now});
+  var msgs=document.getElementById('groupMsgs');
+  var el=document.createElement('div');el.className='cmsg other';
+  el.innerHTML='<div style="font-size:11px;color:var(--mu);margin-bottom:2px">'+name+'</div><div class="cmsg-bub" style="background:#e8f5ee">'+text+'</div><div class="cmsg-time">'+now+'</div>';
+  msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;
+}
+function groupKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendGroupMsg();}}
+function openCreateGroup(){document.getElementById('createGroupModal').classList.add('open');}
+function createGroup(){
+  var name=document.getElementById('gName').value.trim();if(!name){showToast('Топ атауын жазыңыз');return;}
+  var emoji=document.getElementById('gEmoji').value.trim()||'🌐';
+  var creator=currentUser?{name:currentUser.first+' '+currentUser.last[0]+'.',color:'#4a7c59',role:'Админ'}:{name:'Сіз',color:'#4a7c59',role:'Админ'};
+  groupsData.unshift({id:'g'+Date.now(),emoji:emoji,name:name,desc:document.getElementById('gDesc').value.trim()||name,type:document.getElementById('gType').value,members:[creator],msgs:[{from:creator.name,text:'Топ ашылды! 🎉',time:nowTime()}]});
+  closeModal('createGroupModal');document.getElementById('gName').value='';document.getElementById('gDesc').value='';
+  renderGroups();showToast('✓ Топ құрылды!');
+}
+
+// ══ PAYMENT ═══════════════════════════════
+function openPayModal(price){document.getElementById('payModalSub').textContent='Тапсырма бюджеті: '+price;document.getElementById('payModal').classList.add('open');}
+function selPay(el,type){
+  var cards=document.querySelectorAll('.pay-card');for(var i=0;i<cards.length;i++)cards[i].classList.remove('sel');el.classList.add('sel');
+  var forms=['payFormKaspi','payFormCard','payFormCrypto'];for(var i=0;i<forms.length;i++){var f=document.getElementById(forms[i]);if(f)f.classList.remove('vis');}
+  var map={kaspi:'payFormKaspi',card:'payFormCard',crypto:'payFormCrypto'};
+  if(map[type]){var f=document.getElementById(map[type]);if(f)f.classList.add('vis');}
+}
+function confirmPay(){closeModal('payModal');showToast('✓ Төлем сәтті жасалды!');}
+
+// ══ AI SUPPORT CHAT ═══════════════════════
+var aiOpen=false,aiHist=[];
+function toggleAI(){aiOpen=!aiOpen;document.getElementById('aiChat').classList.toggle('open',aiOpen);document.getElementById('aiNotif').style.display='none';document.getElementById('aiIcon').textContent=aiOpen?'×':'🤖';if(aiOpen&&aiHist.length===0)setTimeout(function(){aiAddBot('Сәлем! 👋 Сұрақтарыңызға жауап беремін.');},500);if(aiOpen)document.getElementById('aiInput').focus();}
+function aiAddBot(t){var m=document.getElementById('aiMsgs');var el=document.createElement('div');el.className='msg bot';el.innerHTML='<div class="msg-bub">'+t+'</div><div class="msg-time">'+nowTime()+'</div>';m.appendChild(el);m.scrollTop=m.scrollHeight;}
+function aiAddUser(t){var m=document.getElementById('aiMsgs');var el=document.createElement('div');el.className='msg user';el.innerHTML='<div class="msg-bub">'+t+'</div><div class="msg-time">'+nowTime()+'</div>';m.appendChild(el);m.scrollTop=m.scrollHeight;}
+function aiShowTyping(){var m=document.getElementById('aiMsgs');var el=document.createElement('div');el.className='msg bot';el.id='aiTyp';el.innerHTML='<div class="tdots"><span></span><span></span><span></span></div>';m.appendChild(el);m.scrollTop=m.scrollHeight;}
+function aiRmTyping(){var e=document.getElementById('aiTyp');if(e)e.remove();}
+async function sendAI(){
+  var inp=document.getElementById('aiInput');var t=inp.value.trim();if(!t)return;
+  inp.value='';inp.style.height='auto';aiAddUser(t);aiHist.push({role:'user',content:t});aiShowTyping();
+  try{
+var r=await fetch('https://falling-limit-056f.serikovbahyt7.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:'Сен StudentHub платформасының AI-көмекшісісің. Қазақстандағы студенттер биржасы. Қазақ тілінде қысқа жауап бер.',messages:aiHist})});
+    var d=await r.json();aiRmTyping();
+    var rep=(d&&d.content&&d.content[0]&&d.content[0].text)||'Қате.';
+    aiHist.push({role:'assistant',content:rep});aiAddBot(rep);
+  }catch(e){aiRmTyping();aiAddBot('Байланыс қатесі 🙏');}
+}
+function aiKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();}}
+
+// ══ INIT ══════════════════════════════════
+renderCards();
+</script>
+</body>
+</html>
